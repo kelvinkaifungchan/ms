@@ -35,8 +35,8 @@ function Home() {
 
   const handleNewTab = (data) => {
     if (tabs[0]) {
-      let update = tabs
-      update[0] = [...update[0], data]
+      const update = [...tabs]
+      update[0].push(data)
       setTabs(update)
     } else {
       const array = [[]]
@@ -47,7 +47,7 @@ function Home() {
 
   return (
     <>
-      <Split className="flex max-h-[96vh] h-[96vh] max-w-[83vw] w-full" direction="horizontal" sizes={[15, 85]} cursor="col-resize" gutterSize={10} gutterAlign="center">
+      <Split className="flex max-h-[96vh] h-[96vh] max-w-[95vw] w-full" direction="horizontal" sizes={[15, 85]} cursor="col-resize" gutterSize={10} gutterAlign="center">
           <div className="p-2 space-y-2 max-h-[96vh] h-[96vh]">
               <div className='font-thin opacity-70'>
                 EDITOR
@@ -62,7 +62,7 @@ function Home() {
                           return
                         }
                         return (
-                          <div key={index} tabIndex="0" className="opacity-70 hover:cursor-pointer hover:opacity-100 hover:bg-gray-900 p-1 overflow-y-auto scrollBarHide" onClick={(e) => {handleNewTab(file)}}>
+                          <div key={index} tabIndex="0" className="opacity-70 hover:cursor-pointer hover:opacity-100 hover:bg-gray-900 p-1 overflow-y-auto scrollBarHide font-thin" onClick={(e) => {handleNewTab(file)}}>
                             {file}
                           </div>
                         )
@@ -86,15 +86,15 @@ function Home() {
               }
           </div>
           {
-            tabs[0] != undefined ? (
+            tabs[0]?.length > 0 ? (
               <div className='max-w-full'>
                 <Tab.Group>
-                  <Tab.List className="flex justify-between whitespace-nowrap overflow-scroll scrollBarHide">
+                  <Tab.List className="flex whitespace-nowrap overflow-scroll scrollBarHide">
                     {
                       tabs[0].map((tab, index) => {
                         return (
                           <Tab key={index}>
-                            <div className="ui-selected:bg-gray-800 p-3">
+                            <div className="ui-selected:bg-gray-800 ui-selected:outline-none focus:border-none focus:outline-none p-3">
                               {tab}
                             </div>
                           </Tab>
