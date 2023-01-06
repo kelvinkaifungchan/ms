@@ -15,6 +15,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require('@headlessui/tailwindcss')({ prefix: 'ui' })
+    require('@headlessui/tailwindcss')({ prefix: 'ui' }),
+    require('@tailwindcss/typography'),
   ],
 };

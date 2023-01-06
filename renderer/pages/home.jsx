@@ -12,11 +12,13 @@ function Home() {
   const [folder, setFolder] = useState()
   const [folderName, setFolderName] = useState()
   const [tabs, setTabs] = useState([])
+  const [currentDirectory, setCurrentDirectory] = useState()
 
   const handleOpenDirectory = () => {
     ipcRenderer.send("choose-directory")
     ipcRenderer.on("chosen-directory", (e, message) => {
       if (message.filePaths[0]) {
+        setCurrentDirectory(message.filePaths[0])
         const path = message.filePaths[0].split("/").join("+")
         fetch(`/api/folder/${path}`)
         .then((res) => res.json())
@@ -39,13 +41,24 @@ function Home() {
         return
       } else {
         const update = [...tabs]
-        update[0].push(data)
-        setTabs(update)
+        const path = currentDirectory.split("/").join("+") + "+" + data
+        fetch(`/api/recipe/${path}`)
+        .then((res) => res.json())
+        .then((data) => {
+          update[0].push(data)
+          setTabs(update)
+        })
       }
     } else {
       const array = [[]]
-      array[0].push(data)
-      setTabs(array)
+      const path = currentDirectory.split("/").join("+") + "+" + data
+      fetch(`/api/recipe/${path}`)
+      .then((res) => res.json())
+      .then((data) => {
+        array[0].push(data)
+        setTabs(array)
+      })
+
     }
   }
 
@@ -107,18 +120,18 @@ function Home() {
                           <Tab key={index}>
                             {({ selected }) => (
                               <div className="group flex items-center ui-selected:bg-gray-900 ui-selected:outline-none focus:border-none focus:outline-none p-3">
-                              {tab}
+                              {tab.id}
                                 {
                                   selected ? (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 ml-2 hover:bg-gray-700" onClick={(e) => {
-                                      handleCloseTab(tab)
+                                      handleCloseTab(tab.id)
                                     }}>
                                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                   )
                                   : (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 invisible group-hover:visible hover:bg-gray-800 rounded ml-2" onClick={(e) => {
-                                      handleCloseTab(tab)
+                                      handleCloseTab(tab.id)
                                     }}>
                                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
@@ -136,8 +149,11 @@ function Home() {
                       tabs[0].map((tab, index) => {
                         return (
                           <Tab.Panel key={index}>
-                            <div className='p-2'>
-                              {tab}
+                            <div className='p-2 space-y-2 mt-5'>
+                              <div>
+                                {tab.title}
+                              </div>
+                              <div className='prose text-white prose-a:text-gray-300 leading-none text-sm' dangerouslySetInnerHTML={{__html: tab.contentHtml}} />
                             </div>
                           </Tab.Panel>
                         )
