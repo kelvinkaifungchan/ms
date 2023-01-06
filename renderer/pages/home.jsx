@@ -35,14 +35,25 @@ function Home() {
 
   const handleNewTab = (data) => {
     if (tabs[0]) {
-      const update = [...tabs]
-      update[0].push(data)
-      setTabs(update)
+      if (tabs[0].includes(data)) {
+        return
+      } else {
+        const update = [...tabs]
+        update[0].push(data)
+        setTabs(update)
+      }
     } else {
       const array = [[]]
       array[0].push(data)
       setTabs(array)
     }
+  }
+
+  const handleCloseTab = (data) => {
+    const update = []
+    const filtered = tabs[0].filter(tab => tab != data)
+    update.push(filtered)
+    setTabs(update)
   }
 
   return (
@@ -94,9 +105,27 @@ function Home() {
                       tabs[0].map((tab, index) => {
                         return (
                           <Tab key={index}>
-                            <div className="ui-selected:bg-gray-800 ui-selected:outline-none focus:border-none focus:outline-none p-3">
+                            {({ selected }) => (
+                              <div className="group flex items-center ui-selected:bg-gray-900 ui-selected:outline-none focus:border-none focus:outline-none p-3">
                               {tab}
-                            </div>
+                                {
+                                  selected ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 ml-2 hover:bg-gray-700" onClick={(e) => {
+                                      handleCloseTab(tab)
+                                    }}>
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                  )
+                                  : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 invisible group-hover:visible hover:bg-gray-800 rounded ml-2" onClick={(e) => {
+                                      handleCloseTab(tab)
+                                    }}>
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                  )
+                                }  
+                              </div>
+                            )}
                           </Tab>
                         )
                       })
