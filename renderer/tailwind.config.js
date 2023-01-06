@@ -8,9 +8,10 @@ module.exports = {
   theme: {
     colors: {
       // use colors only specified
+      transparent: 'transparent',
       white: colors.white,
       gray: colors.gray,
-      blue: colors.blue,
+      pink: colors.pink
     },
     extend: {},
   },

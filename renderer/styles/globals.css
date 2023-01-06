@@ -20,3 +20,19 @@ body {
 .scrollBarHide::-webkit-scrollbar {
   display: none;
 }
+
+.customScroll::-webkit-scrollbar-track
+{
+	background: none
+}
+
+.customScroll::-webkit-scrollbar
+{
+	width: 3px;
+}
+
+.customScroll::-webkit-scrollbar-thumb
+{
+  background: #ffffff75;
+}
+

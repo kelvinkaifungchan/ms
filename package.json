@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "metalspoon-native",
-  "description": "My application description",
+  "description": "A desktop cooking assistant",
   "version": "1.0.0",
   "author": "Kelvin Chan <kelvinkaifungchan@gmail.com>",
   "main": "app/background.js",

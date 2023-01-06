@@ -37,7 +37,7 @@ function Home() {
 
   const handleNewTab = (data) => {
     if (tabs[0]) {
-      if (tabs[0].includes(data)) {
+      if (tabs[0].filter(tab => tab.id === data).length > 0) {
         return
       } else {
         const update = [...tabs]
@@ -64,7 +64,7 @@ function Home() {
 
   const handleCloseTab = (data) => {
     const update = []
-    const filtered = tabs[0].filter(tab => tab != data)
+    const filtered = tabs[0].filter(tab => tab.id != data)
     update.push(filtered)
     setTabs(update)
   }
@@ -72,21 +72,21 @@ function Home() {
   return (
     <>
       <Split className="flex max-h-[96vh] h-[96vh] max-w-[95vw] w-full" direction="horizontal" sizes={[15, 85]} cursor="col-resize" gutterSize={10} gutterAlign="center">
-          <div className="p-2 space-y-2 max-h-[96vh] h-[96vh]">
-              <div className='font-thin opacity-70'>
-                EDITOR
+          <div className="p-2 max-h-[96vh] h-[96vh]">
+              <div className='opacity-70'>
+                ARCHIVE
               </div>
               {
                 Array.isArray(folder) ? 
                 (
                   <Dropdown title={folderName}>
-                    <div className='overflow-auto'>
+                    <div>
                       {folder.map((file, index) => {
                         if (file[0] === ".") {
                           return
                         }
                         return (
-                          <div key={index} tabIndex="0" className="opacity-70 hover:cursor-pointer hover:opacity-100 hover:bg-gray-900 p-1 overflow-y-auto scrollBarHide font-thin" onClick={(e) => {handleNewTab(file)}}>
+                          <div key={index} tabIndex="0" className="opacity-60 hover:cursor-pointer hover:opacity-100 hover:bg-gray-900 p-1 overflow-y-auto scrollBarHide font-thin" onClick={(e) => {handleNewTab(file)}}>
                             {file}
                           </div>
                         )
@@ -113,47 +113,70 @@ function Home() {
             tabs[0]?.length > 0 ? (
               <div className='max-w-full'>
                 <Tab.Group>
-                  <Tab.List className="flex whitespace-nowrap overflow-scroll scrollBarHide">
-                    {
-                      tabs[0].map((tab, index) => {
-                        return (
-                          <Tab key={index}>
-                            {({ selected }) => (
-                              <div className="group flex items-center ui-selected:bg-gray-900 ui-selected:outline-none focus:border-none focus:outline-none p-3">
-                              {tab.id}
-                                {
-                                  selected ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 ml-2 hover:bg-gray-700" onClick={(e) => {
-                                      handleCloseTab(tab.id)
-                                    }}>
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                  )
-                                  : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 invisible group-hover:visible hover:bg-gray-800 rounded ml-2" onClick={(e) => {
-                                      handleCloseTab(tab.id)
-                                    }}>
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                  )
-                                }  
-                              </div>
-                            )}
-                          </Tab>
-                        )
-                      })
-                    }
+                  <Tab.List >
+                    <div className="flex items-center justify-between space-x-5">
+                      <div className='flex whitespace-nowrap overflow-scroll scrollBarHide'>
+                        {
+                          tabs[0].map((tab, index) => {
+                            return (
+                              <Tab key={index}>
+                                {({ selected }) => (
+                                  <div className="group flex items-center ui-selected:bg-gray-900 ui-selected:outline-none focus:border-none focus:outline-none p-3 rounded">
+                                  {tab.id}
+                                    {
+                                      selected ? (
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 ml-2 rounded-md hover:bg-gray-700" onClick={(e) => {
+                                          handleCloseTab(tab.id)
+                                        }}>
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                      )
+                                      : (
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 invisible group-hover:visible hover:bg-gray-700 rounded-md ml-2" onClick={(e) => {
+                                          handleCloseTab(tab.id)
+                                        }}>
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                      )
+                                    }  
+                                  </div>
+                                )}
+                              </Tab>
+                            )
+                          })
+                        }
+                      </div>
+                      <div className='p-2 hover:bg-gray-800 rounded hover:cursor-pointer'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z" />
+                        </svg>
+                      </div>
+                    </div>
                   </Tab.List>
                   <Tab.Panels>
                     {
                       tabs[0].map((tab, index) => {
                         return (
                           <Tab.Panel key={index}>
-                            <div className='p-2 space-y-2 mt-5'>
-                              <div>
+                            <div className='p-2 space-y-5 pt-6 h-[90vh] overflow-scroll customScroll overflow-x-hidden px-5'>
+                              <div className='text-4xl'>
                                 {tab.title}
                               </div>
-                              <div className='prose text-white prose-a:text-gray-300 leading-none text-sm' dangerouslySetInnerHTML={{__html: tab.contentHtml}} />
+                              <div className='space-x-2'>
+                                {
+                                  tab.tags ? tab.tags.map((tag) => {
+                                    return (
+                                      <span className='bg-gray-800 rounded-md p-1 px-2'>
+                                        {tag}
+                                      </span>
+                                    )
+                                  })
+                                  : null
+                                }
+                              </div>
+                              <div>
+                                <div className='prose text-white prose-li:text-white prose-ol:text-white prose-a:text-gray-300 leading-none text-sm prose-hr:border-none prose-hr:my-1' dangerouslySetInnerHTML={{__html: tab.contentHtml}}/>
+                              </div>
                             </div>
                           </Tab.Panel>
                         )
