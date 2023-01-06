@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import electron from "electron"
 const ipcRenderer = electron.ipcRenderer || false;
 import Split from 'react-split'
+import { Tab } from '@headlessui/react'
 import { Dropdown } from '../components/dropdown';
 
 function Home() {
@@ -32,19 +33,21 @@ function Home() {
     })
   }
 
-  const handleNewTab = (e, data) => {
+  const handleNewTab = (data) => {
     if (tabs[0]) {
-      tabs[0].push(data)
+      let update = tabs
+      update[0] = [...update[0], data]
+      setTabs(update)
     } else {
-      tabs.push([data])
+      const array = [[]]
+      array[0].push(data)
+      setTabs(array)
     }
   }
 
-  console.log(tabs)
-
   return (
     <>
-      <Split className="flex max-h-[96vh] h-[96vh] w-full" direction="horizontal" sizes={[15, 85]} cursor="col-resize" gutterSize={10} gutterAlign="center">
+      <Split className="flex max-h-[96vh] h-[96vh] max-w-[83vw] w-full" direction="horizontal" sizes={[15, 85]} cursor="col-resize" gutterSize={10} gutterAlign="center">
           <div className="p-2 space-y-2 max-h-[96vh] h-[96vh]">
               <div className='font-thin opacity-70'>
                 EDITOR
@@ -59,7 +62,7 @@ function Home() {
                           return
                         }
                         return (
-                          <div key={index} tabIndex="0" className="opacity-70 hover:cursor-pointer hover:opacity-100 hover:bg-gray-900 p-1 overflow-y-auto scrollBarHide" onClick={(e) => {handleNewTab(e, file)}}>
+                          <div key={index} tabIndex="0" className="opacity-70 hover:cursor-pointer hover:opacity-100 hover:bg-gray-900 p-1 overflow-y-auto scrollBarHide" onClick={(e) => {handleNewTab(file)}}>
                             {file}
                           </div>
                         )
@@ -84,8 +87,35 @@ function Home() {
           </div>
           {
             tabs[0] != undefined ? (
-              <div>
-                Hi
+              <div className='max-w-full'>
+                <Tab.Group>
+                  <Tab.List className="flex justify-between whitespace-nowrap overflow-scroll scrollBarHide">
+                    {
+                      tabs[0].map((tab, index) => {
+                        return (
+                          <Tab key={index}>
+                            <div className="ui-selected:bg-gray-800 p-3">
+                              {tab}
+                            </div>
+                          </Tab>
+                        )
+                      })
+                    }
+                  </Tab.List>
+                  <Tab.Panels>
+                    {
+                      tabs[0].map((tab, index) => {
+                        return (
+                          <Tab.Panel key={index}>
+                            <div className='p-2'>
+                              {tab}
+                            </div>
+                          </Tab.Panel>
+                        )
+                      })
+                    }
+                  </Tab.Panels>
+                </Tab.Group>
               </div>
             )
             :

@@ -11,6 +11,8 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.7",
+    "@headlessui/tailwindcss": "^0.1.2",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "react-split": "^2.0.14"
