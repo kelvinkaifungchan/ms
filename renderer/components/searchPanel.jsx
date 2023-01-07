@@ -17,11 +17,9 @@ export const SearchPanel = ({active, folder, currentDirectory, handleNewTab}) =>
         }
     }, [currentDirectory, folder])
 
-
     const handleSearch = (e) => {
         setSearch(e.target.value)
         if (metadata) {
-            console.log("filtering")
             const result = metadata.filter((recipe) => {
                 let cuisine = recipe.cuisine
                 let tags = recipe.tags
@@ -29,7 +27,6 @@ export const SearchPanel = ({active, folder, currentDirectory, handleNewTab}) =>
                 let concat = recipe.file.concat(title, cuisine, tags)
                 return concat.toLowerCase().match(e.target.value.toLowerCase())
             })
-            console.log(results)
             setResults(result)
         }
     }

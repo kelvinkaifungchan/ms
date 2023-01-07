@@ -25,7 +25,6 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
         let dir = req.query.path.split("+").join("/")
-        console.log("get", dir)
         try {
             let metadata = getAllFileMetadata(dir)
                 

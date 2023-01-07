@@ -17,6 +17,7 @@
     "electron-store": "^8.1.0",
     "gray-matter": "^4.0.3",
     "react-split-it": "^2.0.0",
+    "react-timer-hook": "^3.0.5",
     "remark": "^14.0.2",
     "remark-html": "^15.0.1"
   },

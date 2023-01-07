@@ -1,6 +1,6 @@
 export const EditorTab = ({recipe}) => {
     return (
-        <div className='p-20 pt-6 h-[90vh] overflow-scroll customScroll overflow-x-hidden px-5 rounded opacity-90 bg-white shadow-inset'>
+        <div className='p-20 pt-6 h-full overflow-scroll customScroll overflow-x-hidden px-5 rounded opacity-90 bg-white shadow-inset'>
             <div className='flex justify-center'>
                 <div className='space-y-5 lg:w-1/2'>
                     <div className='text-4xl text-gray-800 font-bold'>
