@@ -1,7 +1,8 @@
 import { Tab } from "@headlessui/react"
 import { useState } from "react"
+import { EditorTab } from "./editorTab"
 
-export const TabGroup = ({tabs, index, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup}) => {
+export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup}) => {
     return (
         <>
         {
@@ -41,42 +42,26 @@ export const TabGroup = ({tabs, index, handleCloseTab, activeTab, handleActiveTa
                                 })
                             }
                             </div>
-                            <div className='p-2 hover:bg-mono-700 rounded hover:cursor-pointer' onClick={(e) => {handleNewTabGroup()}}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z" />
-                                </svg>
-                            </div>
+                            {
+                                active ? (
+                                <div className='p-2 hover:bg-mono-700 rounded hover:cursor-pointer' onClick={(e) => {handleNewTabGroup()}}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z" />
+                                    </svg>
+                                </div>
+
+                                )
+                                : null
+                            }
                         </div>
                         </Tab.List>
                         <Tab.Panels>
                         {
                             tabs?.map((tab, index) => {
+                                console.log(tab)
                             return (
                                 <Tab.Panel key={index}>
-                                <div className='p-20 pt-6 h-[90vh] overflow-scroll customScroll overflow-x-hidden px-5 rounded opacity-90 bg-white shadow-inset'>
-                                    <div className='flex justify-center'>
-                                    <div className='space-y-5 lg:w-1/2'>
-                                        <div className='text-4xl text-gray-800 font-bold'>
-                                        {tab.title}
-                                        </div>
-                                        <div className='space-x-2'>
-                                        {
-                                            tab.tags ? tab.tags.map((tag, index) => {
-                                            return (
-                                                <span className='bg-mono-700 rounded-md p-1 px-2' key={index}>
-                                                {tag}
-                                                </span>
-                                            )
-                                            })
-                                            : null
-                                        }
-                                        </div>
-                                        <div>
-                                        <div className='prose leading-none text-sm prose-hr:border-none prose-hr:my-1' dangerouslySetInnerHTML={{__html: tab.contentHtml}}/>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
+                                    <EditorTab recipe={tab}/>
                                 </Tab.Panel>
                             )
                             })

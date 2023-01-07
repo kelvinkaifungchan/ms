@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import electron from "electron"
 const ipcRenderer = electron.ipcRenderer || false;
 import Split from 'react-split-it';
-import { Tab } from '@headlessui/react'
-import { Dropdown } from '../components/dropdown';
+import { ToolBar } from '../components/toolBar';
+import { ArchivePanel } from '../components/archivePanel';
+import { SearchPanel } from '../components/searchPanel';
 import { TabGroup } from '../components/tabGroup';
+import { PlanPanel } from '../components/planPanel';
 
 function Home() {
   const router = useRouter()
@@ -16,6 +19,7 @@ function Home() {
   const [currentDirectory, setCurrentDirectory] = useState()
   const [activeTab, setActiveTab] = useState([])
   const [activeTabGroup, setActiveTabGroup] = useState(0)
+  const [activeTool, setActiveTool] = useState(0)
 
   const handleOpenDirectory = () => {
     ipcRenderer.send("choose-directory")
@@ -31,11 +35,15 @@ function Home() {
             let f = file.split(message.filePaths[0] + "/")
             return f[1]
           })
-          setFolder(processedFiles)
+          setFolder(processedFiles.filter(file => file[0] != "."))
           setFolderName(message.filePaths[0].split("/").pop().toUpperCase())
         })
       }
     })
+  }
+
+  const handleActiveTool = (tool) => {
+    setActiveTool(tool)
   }
 
   const handleNewTabGroup = () => {
@@ -90,56 +98,34 @@ function Home() {
   }
 
   return (
-    <>
-      <Split className="flex max-h-[96vh] h-[96vh] max-w-[96vw] w-full" gutterAlign="center" sizes={[0.1,0.7]} minSize={200}>
-          <div className="p-2 max-h-[96vh] h-[96vh]">
-              <div className='opacity-70'>
-                ARCHIVE
+    <div>
+      <Head>
+        <title>Spoon</title>
+      </Head>
+      <div className='h-[4vh] drag flex justify-center font-bold p-2'>
+      </div>
+      <div className='flex w-full'>
+        <ToolBar handleActiveTool={handleActiveTool}/>
+        <div className="w-full h-[96vh]">
+          <Split className="flex max-h-[96vh] h-[96vh] max-w-[96vw] w-full" gutterAlign="center" sizes={[0.1,0.7]} minSize={200}>
+              <div>
+                <ArchivePanel active={activeTool === 0} folder={folder} folderName={folderName} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/>
+                <SearchPanel active={activeTool === 1} folder={folder} currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
+                <PlanPanel active={activeTool === 2} folder={folder} folderName={folderName}currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
               </div>
-              {
-                Array.isArray(folder) ? 
-                (
-                  <Dropdown title={folderName}>
-                    <div>
-                      {folder.map((file, index) => {
-                        if (file[0] === ".") {
-                          return
-                        }
-                        return (
-                          <div key={index} tabIndex="0" className="opacity-60 hover:cursor-pointer hover:opacity-100 hover:bg-mono-900 p-1 overflow-y-auto scrollBarHide font-thin" onClick={(e) => {handleNewTab(file)}}>
-                            {file}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </Dropdown>
-                )
-                :
-                (
-                  <Dropdown title={"NO FOLDER OPEN"}>
-                    <div className='p-2 space-y-3'>
-                      <div className='opacity-70'>
-                        Select a folder where you would like to store your recipes.
-                      </div>
-                      <button className='p-2 bg-mono-900 opacity-70 hover:opacity-100 w-full' onClick={() => handleOpenDirectory()}>
-                        Select Folder
-                      </button>
-                    </div>
-                  </Dropdown>
-                )
-              }
-          </div>
-          <Split className='flex w-full h-full' direction="horizontal" gutterSize={10} minSize={200}>
-            {
-              tabs?.map((group, index) => {
-                return (
-                  <TabGroup key={index} tabs={group} index={index} handleNewTab={handleNewTab} handleCloseTab={handleCloseTab} activeTab={activeTab[index]} handleActiveTab={handleActiveTab} handleNewTabGroup={handleNewTabGroup} handleActiveTabGroup={handleActiveTabGroup}/>
-                )
-              })
-            }
+              <Split className='flex w-full h-full' direction="horizontal" gutterSize={10} minSize={100}>
+                {
+                  tabs?.map((group, index) => {
+                    return (
+                      <TabGroup active={index === activeTabGroup ? true : false} key={index} tabs={group} index={index} handleNewTab={handleNewTab} handleCloseTab={handleCloseTab} activeTab={activeTab[index]} handleActiveTab={handleActiveTab} handleNewTabGroup={handleNewTabGroup} handleActiveTabGroup={handleActiveTabGroup}/>
+                    )
+                  })
+                }
+              </Split>
           </Split>
-      </Split>
-    </>
+        </div>
+      </div>
+    </div>
   );
 }
 

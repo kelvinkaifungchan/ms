@@ -5,8 +5,6 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 
-const recipesDirectory = path.join(process.cwd(), 'recipes')
-
 export async function getRecipeData(slug) {
     let path = slug.split("+").join("/")
     let title = slug.split("+")
