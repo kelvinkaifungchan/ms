@@ -1,8 +1,7 @@
 import { Tab } from "@headlessui/react"
 import { useState } from "react"
 
-export const TabGroup = ({tabs, index, handleNewTab, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup}) => {
-
+export const TabGroup = ({tabs, index, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup}) => {
     return (
         <>
         {
@@ -13,11 +12,11 @@ export const TabGroup = ({tabs, index, handleNewTab, handleCloseTab, activeTab, 
                         <div className="flex items-center justify-between space-x-5">
                             <div className='flex whitespace-nowrap overflow-scroll scrollBarHide'>
                             {
-                                tabs?.map((tab, index) => {
+                                tabs?.map((tab, i) => {
                                 return (
-                                    <Tab key={index}>
+                                    <Tab key={i}>
                                     {({ selected }) => (
-                                        <div className="group flex items-center ui-selected:bg-pink-700 ui-selected:outline-none focus:border-none focus:outline-none p-3 rounded" onClick={(e) => {handleActiveTab(index)}}>
+                                        <div className="group flex items-center ui-selected:bg-pink-700 ui-selected:outline-none focus:border-none focus:outline-none p-3 rounded" onClick={(e) => {handleActiveTab(i, index)}}>
                                         {tab.id}
                                         {
                                             selected ? (

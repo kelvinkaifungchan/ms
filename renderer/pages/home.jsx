@@ -14,7 +14,7 @@ function Home() {
   const [folderName, setFolderName] = useState()
   const [tabs, setTabs] = useState([[]])
   const [currentDirectory, setCurrentDirectory] = useState()
-  const [activeTab, setActiveTab] = useState()
+  const [activeTab, setActiveTab] = useState([])
   const [activeTabGroup, setActiveTabGroup] = useState(0)
 
   const handleOpenDirectory = () => {
@@ -60,7 +60,9 @@ function Home() {
         .then((data) => {
           update[activeTabGroup].push(data)
           setTabs(update)
-          setActiveTab(update[0].length-1)
+          const updateActiveTab = activeTab
+          updateActiveTab[activeTabGroup] = update[activeTabGroup].length-1
+          setActiveTab(updateActiveTab)
         })
       }
     }
@@ -69,16 +71,27 @@ function Home() {
   const handleCloseTab = (data) => {
     const update = [...tabs]
     update[activeTabGroup] = update[activeTabGroup].filter(tab => tab.id != data)
+    if (update[activeTabGroup].length < 1) {
+      update.splice(activeTabGroup, 1)
+    }
+
+    if (activeTab[activeTabGroup] > update[activeTabGroup]?.length -1) {
+      const updateActiveTab = [...activeTab]
+      updateActiveTab[activeTabGroup] = update[activeTabGroup].length -1
+      setActiveTab(updateActiveTab)
+    }
     setTabs(update)
   }
 
-  const handleActiveTab = (tabIndex) => {
-    setActiveTab(tabIndex)
+  const handleActiveTab = (tabIndex, tabGroupIndex) => {
+    const updateActiveTab = [...activeTab]
+    updateActiveTab[tabGroupIndex] = tabIndex
+    setActiveTab(updateActiveTab)
   }
 
   return (
     <>
-      <Split className="flex max-h-[96vh] h-[96vh] max-w-[95vw] w-full" gutterAlign="center" sizes={[0.1,0.7]}>
+      <Split className="flex max-h-[96vh] h-[96vh] max-w-[96vw] w-full" gutterAlign="center" sizes={[0.1,0.7]} minSize={200}>
           <div className="p-2 max-h-[96vh] h-[96vh]">
               <div className='opacity-70'>
                 ARCHIVE
@@ -108,7 +121,7 @@ function Home() {
                       <div className='opacity-70'>
                         Select a folder where you would like to store your recipes.
                       </div>
-                      <button className='p-2 bg-mono-900 opacity-80 hover:opacity-100 w-full' onClick={() => handleOpenDirectory()}>
+                      <button className='p-2 bg-mono-900 opacity-70 hover:opacity-100 w-full' onClick={() => handleOpenDirectory()}>
                         Select Folder
                       </button>
                     </div>
@@ -120,7 +133,7 @@ function Home() {
             {
               tabs?.map((group, index) => {
                 return (
-                  <TabGroup key={index} tabs={group} index={index} handleNewTab={handleNewTab} handleCloseTab={handleCloseTab} activeTab={activeTab} handleActiveTab={handleActiveTab} handleNewTabGroup={handleNewTabGroup} handleActiveTabGroup={handleActiveTabGroup}/>
+                  <TabGroup key={index} tabs={group} index={index} handleNewTab={handleNewTab} handleCloseTab={handleCloseTab} activeTab={activeTab[index]} handleActiveTab={handleActiveTab} handleNewTabGroup={handleNewTabGroup} handleActiveTabGroup={handleActiveTabGroup}/>
                 )
               })
             }
