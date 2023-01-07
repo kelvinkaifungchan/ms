@@ -36,3 +36,18 @@ body {
   background: #ffffff75;
 }
 
+/* react-split-it classes */
+.gutter {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.gutter-horizontal {
+  cursor: col-resize;
+}
+.gutter-vertical {
+  cursor: row-resize;
+}
+
+.gutter-dragging:hover {
+  background: rgba(255, 255, 255, 0.899);
+}

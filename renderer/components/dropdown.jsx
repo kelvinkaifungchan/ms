@@ -29,13 +29,11 @@ export const Dropdown = ({title, children}) => {
                             </svg>
                         </span>
                     </div>
-                    
-                    
                 )
                 : 
                 (
                     <>
-                        <div className="group flex justify-between hover:cursor-pointer py-1" >
+                        <div className="group flex justify-between hover:cursor-pointer py-1">
                             <div className='flex items-center space-x-2 w-auto' onClick={() => setToggle(!toggle)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />

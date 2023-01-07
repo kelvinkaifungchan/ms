@@ -1,5 +1,5 @@
 import Head from "next/head"
-import Split from 'react-split'
+import Split from 'react-split-it'
 import { Tooltip } from "./tooltip"
 
 export const Layout = ({children}) => {
