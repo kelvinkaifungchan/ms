@@ -1,6 +1,12 @@
+import { useEffect, useState } from 'react';
 import { Dropdown } from '../components/dropdown';
 
-export const ArchivePanel = ({active, folder, folderName, handleOpenDirectory, handleNewTab}) => {
+export const ArchivePanel = ({active, folder, folderName, handleOpenDirectory, handleNewTab, currentDirectory, updateFileList}) => {
+  const [files, setFiles] = useState()
+
+  useEffect(() => {
+    setFiles(folder)
+  }, [folder])
 
     return (
         <div className={`p-2 max-h-[96vh] h-[96vh] ${active ? "block" : "hidden"}`}>
@@ -8,11 +14,11 @@ export const ArchivePanel = ({active, folder, folderName, handleOpenDirectory, h
                 ARCHIVE
               </div>
               {
-                Array.isArray(folder) ? 
+                Array.isArray(files) ? 
                 (
-                  <Dropdown title={folderName}>
+                  <Dropdown title={folderName} currentDirectory={currentDirectory} updateFileList={updateFileList}>
                     <div>
-                      {folder.map((file, index) => {
+                      {files.map((file, index) => {
                         return (
                           <div key={index} tabIndex="0" className="opacity-60 hover:cursor-pointer hover:opacity-100 hover:bg-mono-900 p-1 overflow-y-auto scrollBarHide font-thin" onClick={(e) => {handleNewTab(file)}}>
                             {file}

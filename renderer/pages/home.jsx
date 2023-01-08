@@ -97,6 +97,12 @@ function Home() {
     setActiveTab(updateActiveTab)
   }
 
+  const updateFileList = (file) => {
+    const update = [...folder]
+    update.push(file)
+    setFolder(update.sort())
+  }
+
   return (
     <div>
       <Head>
@@ -109,7 +115,7 @@ function Home() {
         <div className="w-full h-[96vh]">
           <Split className="flex max-h-[96vh] h-[96vh] max-w-[96vw] w-full" gutterAlign="center" sizes={[0.1,0.7]} minSize={200}>
               <div>
-                <ArchivePanel active={activeTool === 0} folder={folder} folderName={folderName} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/>
+                <ArchivePanel active={activeTool === 0} folder={folder} folderName={folderName} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory} currentDirectory={currentDirectory} updateFileList={updateFileList}/>
                 <SearchPanel active={activeTool === 1} folder={folder} currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
                 <PlanPanel active={activeTool === 2} folder={folder} folderName={folderName}currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
               </div>
