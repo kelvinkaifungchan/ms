@@ -15,11 +15,9 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
     }
 
     const handleCloseTimer = (index) => {
-        console.log("close", index)
+        ("close", index)
         const update = [...timers]
-        console.log("update", update)
         update.splice(index, 1)
-        console.log("splice", update)
         setTimers(update)
     }
 

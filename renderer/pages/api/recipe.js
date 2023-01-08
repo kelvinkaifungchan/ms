@@ -18,7 +18,6 @@ export default async function handler(req, res) {
         const {name, currentDirectory} = req.body
         try {
             let recipe = await createMarkdownFile(name, currentDirectory)
-                console.log("recipe", recipe)
             res.status(200).json(recipe)
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong' });
