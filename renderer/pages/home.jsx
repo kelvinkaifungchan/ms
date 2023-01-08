@@ -88,6 +88,9 @@ function Home() {
       updateActiveTab[activeTabGroup] = update[activeTabGroup].length -1
       setActiveTab(updateActiveTab)
     }
+    if (update.length < 1) {
+      update.push([])
+    }
     setTabs(update)
   }
 
@@ -104,11 +107,17 @@ function Home() {
   }
 
   const handleHotkey = (e) => {
+    console.log("activeTab", activeTab)
+    console.log("tab group", activeTabGroup)
     // "Option" + "w" to close tab
-    if (e.altKey && e.keyCode === 87) {
+    if (e.altKey && e.keyCode === 87 && activeTab) {
       const tabId = activeTab[activeTabGroup]
       const tabName = tabs[activeTabGroup][tabId].id
+      console.log("tabName", tabName)
       handleCloseTab(tabName)
+    }
+    else if (e.altKey && e.keyCode === 220) {
+      handleNewTabGroup()
     }
   }
 

@@ -39,11 +39,11 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                                         {tab.id}
                                         {
                                             selected ? (
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 ml-2 rounded-md hover:bg-mono-700" onClick={(e) => {
-                                                handleCloseTab(tab.id)
-                                            }}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
+                                            <Tooltip tooltip={"Close (⌥W)"} position={"translate-y-10 translate-x-4"}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 ml-2 rounded-md hover:bg-mono-700" onClick={(e) => { handleCloseTab(tab.id)}}>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </Tooltip>
                                             )
                                             : (
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 invisible group-hover:visible hover:bg-mono-700 rounded-md ml-2" onClick={(e) => {
@@ -63,7 +63,7 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                             {
                                 active ? (
                                 <div className="flex">
-                                    <Tooltip tooltip={"Split Editor Right"} position={"-translate-x-24 translate-y-12"}>
+                                    <Tooltip tooltip={"Split Editor Right (⌥\)"} position={"-translate-x-32 translate-y-12"}>
                                         <div className='p-2 hover:bg-mono-700 rounded hover:cursor-pointer' onClick={(e) => {handleNewTabGroup()}}>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z" />
