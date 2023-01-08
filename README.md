@@ -1,38 +1,7 @@
-<p align="center"><img src="https://i.imgur.com/P08L8HO.png"></p>
+## Metalspoon
 
-## Usage
+<img width="1554" alt="Screenshot 2023-01-08 at 1 51 38 AM" src="https://user-images.githubusercontent.com/84696121/211177198-a10db78f-3e8c-42f9-acba-f70a976c0fdd.png">
 
-### Create an App
+Metalspoon is a desktop cooking assistant with an organised interface for cooking and features to help make meal plans, grocery lists, and finding new recipes.
 
-```
-# with npx
-$ npx create-nextron-app my-app --example with-javascript-tailwindcss
-
-# with yarn
-$ yarn create nextron-app my-app --example with-javascript-tailwindcss
-
-# with pnpx
-$ pnpx create-nextron-app my-app --example with-javascript-tailwindcss
-```
-
-### Install Dependencies
-
-```
-$ cd my-app
-
-# using yarn or npm
-$ yarn (or `npm install`)
-
-# using pnpm
-$ pnpm install --shamefully-hoist
-```
-
-### Use it
-
-```
-# development mode
-$ yarn dev (or `npm run dev` or `pnpm run dev`)
-
-# production build
-$ yarn build (or `npm run build` or `pnpm run build`)
-```
+The recipe archive works from locally based markdown files, while grocery lists and mealplans work from locally based JSON files. There is no built in support for cloud-based syncing at the moment but this can be easily done by sharing the raw markdown and JSON files to other devices with Metalspoon.
