@@ -103,6 +103,15 @@ function Home() {
     setFolder(update.sort())
   }
 
+  const handleHotkey = (e) => {
+    // "Option" + "w" to close tab
+    if (e.altKey && e.keyCode === 87) {
+      const tabId = activeTab[activeTabGroup]
+      const tabName = tabs[activeTabGroup][tabId].id
+      handleCloseTab(tabName)
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -110,7 +119,7 @@ function Home() {
       </Head>
       <div className='h-[4vh] drag flex justify-center font-bold p-2'>
       </div>
-      <div className='flex w-full'>
+      <div className='flex w-full' onKeyDown={(e) => {handleHotkey(e)}}>
         <ToolBar handleActiveTool={handleActiveTool}/>
         <div className="w-full h-[96vh]">
           <Split className="flex max-h-[96vh] h-[96vh] max-w-[96vw] w-full" gutterAlign="center" sizes={[0.1,0.7]} minSize={200}>
