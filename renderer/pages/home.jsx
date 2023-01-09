@@ -130,7 +130,6 @@ function Home() {
       handleNewTabGroup()
     }
   }
-  console.log("tabs", tabs)
 
   return (
     <div>

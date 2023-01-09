@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export const PlanDay = ({day, meal}) => {
+export const PlanDay = ({day, meal, changed}) => {
 
     const [input, setInput] = useState()
 
@@ -18,7 +18,7 @@ export const PlanDay = ({day, meal}) => {
                 {day}
             </div>
             <div className="text-gray-800">
-                <textarea className="w-full resize-none h-[20vh] focus:outline-none " value={input || ""} onChange={(e) => {handleChange(e)}} placeholder={"No meals planned"}/>
+                <textarea className="w-full resize-none h-[20vh] focus:outline-none " value={input || ""} onChange={(e) => {handleChange(e); changed()}} placeholder={"No meals planned"}/>
             </div>
         </div>
     )

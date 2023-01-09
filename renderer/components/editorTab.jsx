@@ -1,4 +1,4 @@
-export const EditorTab = ({recipe}) => {
+export const EditorTab = ({recipe, index, handleChanged}) => {
     return (
         <div className='p-20 pt-6 h-full overflow-scroll customScroll overflow-x-hidden px-5 rounded opacity-90 bg-white shadow-inset'>
             <div className='flex justify-center'>

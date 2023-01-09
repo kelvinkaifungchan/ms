@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Split from 'react-split-it';
 import { EditorTab } from "./editorTab"
 import { PlanTab } from "./planTab";
@@ -8,6 +8,15 @@ import { Tooltip } from "./tooltip"
 
 export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup}) => {
     const [timers, setTimers] = useState([])
+    const [changed, setChanged] = useState([])
+
+    useEffect(() => {
+        const change = []
+        for (var i = 0; i < tabs.length; i++) {
+            change.push(false)
+        }
+        setChanged(change)
+    }, [tabs])
 
     const handleNewTimer = () => {
         const update = [...timers]
@@ -16,10 +25,15 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
     }
 
     const handleCloseTimer = (index) => {
-        ("close", index)
         const update = [...timers]
         update.splice(index, 1)
         setTimers(update)
+    }
+
+    const handleChanged = (index) => {
+        const update =[...changed]
+        update[index] = true
+        setChanged(update)
     }
 
     return (
@@ -39,21 +53,32 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                                         <div className="group flex items-center ui-selected:bg-pink-700 ui-selected:outline-none focus:border-none focus:outline-none p-3 rounded" onClick={(e) => {handleActiveTab(i, index)}}>
                                         {tab.id}
                                         {
+                                            changed[i] ? (
+                                                <>
+                                                *
+                                                    <Tooltip tooltip={"Close (⌥W)"} position={"translate-y-10 translate-x-4"}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 rounded-md hover:bg-mono-700 ml-3" onClick={(e) => { handleCloseTab(tab.id)}}>
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </Tooltip>
+                                                </>
+                                            )
+                                            :
                                             selected ? (
-                                            <Tooltip tooltip={"Close (⌥W)"} position={"translate-y-10 translate-x-4"}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 ml-2 rounded-md hover:bg-mono-700" onClick={(e) => { handleCloseTab(tab.id)}}>
+                                                <Tooltip tooltip={"Close (⌥W)"} position={"translate-y-10 translate-x-4"}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 rounded-md hover:bg-mono-700 ml-3" onClick={(e) => { handleCloseTab(tab.id)}}>
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </Tooltip>
+                                                )
+                                                : (
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 invisible group-hover:visible hover:bg-mono-700 rounded-md ml-3" onClick={(e) => {
+                                                    handleCloseTab(tab.id)
+                                                }}>
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                                 </svg>
-                                            </Tooltip>
-                                            )
-                                            : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 invisible group-hover:visible hover:bg-mono-700 rounded-md ml-2" onClick={(e) => {
-                                                handleCloseTab(tab.id)
-                                            }}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                            )
-                                        }  
+                                                )
+                                        }
                                         </div>
                                     )}
                                     </Tab>
@@ -90,7 +115,7 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                             return (
                                 <Tab.Panel key={index}>
                                     <Split className="h-[90vh] max-h-[90vh] flex flex-col" direction={"vertical"} minSize={150} gutterSize={10}>
-                                        { tab.plan ? <PlanTab plan={tab.plan}/> : <EditorTab recipe={tab}/>}
+                                        { tab.plan ? <PlanTab index={index} plan={tab.plan} handleChanged={handleChanged}/> : <EditorTab index={index} recipe={tab} handleChanged={handleChanged}/>}
                                         {
                                             timers.length > 0 ? (
                                                 <Split className="flex h-full w-full" minSize={200}>
