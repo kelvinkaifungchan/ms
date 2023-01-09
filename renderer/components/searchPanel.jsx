@@ -7,8 +7,7 @@ export const SearchPanel = ({active, folder, currentDirectory, handleNewTab}) =>
 
     useEffect(() => {
         if (currentDirectory) {
-            const path = currentDirectory.split("/").join("+")
-            fetch(`/api/folder/${path}/metadata`)
+            fetch(`/api/folder/${currentDirectory.split("/").join("+")}/metadata`)
             .then((res) => res.json())
             .then((data) => {
                 const meta = data.filter(object => object.title)

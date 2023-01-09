@@ -107,8 +107,6 @@ function Home() {
   }
 
   const handleHotkey = (e) => {
-    console.log("activeTab", activeTab)
-    console.log("tab group", activeTabGroup)
     // "Option" + "w" to close tab
     if (e.altKey && e.keyCode === 87 && activeTab) {
       const tabId = activeTab[activeTabGroup]
@@ -135,7 +133,7 @@ function Home() {
               <div>
                 <ArchivePanel active={activeTool === 0} folder={folder} folderName={folderName} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory} currentDirectory={currentDirectory} updateFileList={updateFileList}/>
                 <SearchPanel active={activeTool === 1} folder={folder} currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
-                <PlanPanel active={activeTool === 2} folder={folder} folderName={folderName}currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
+                <PlanPanel active={activeTool === 2} folderName={folderName} currentDirectory={currentDirectory} handleNewTab={handleNewTab}/>
               </div>
               <Split className='flex w-full h-full' direction="horizontal" gutterSize={10} minSize={100}>
                 {
