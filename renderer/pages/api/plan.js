@@ -5,7 +5,7 @@ async function createPlanFile (name, directory) {
   // Use path.join() to create a full file path
   const filePath = directory + '/' + `${name}.json`
 
-  fs.writeFile(filePath, "{monday: [], tuesday: [], wednesday: []}, thursday: [], friday: [], saturday: [], sunday: []}", (err) => {
+  fs.writeFile(filePath, '{"monday": [], "tuesday": [], "wednesday": [], "thursday": [], "friday": [], "saturday": [], "sunday": []}', (err) => {
     if (err) throw err;
   });
   const file = `${name}`

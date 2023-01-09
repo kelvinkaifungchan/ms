@@ -2,6 +2,7 @@ import { Tab } from "@headlessui/react"
 import { useState } from "react"
 import Split from 'react-split-it';
 import { EditorTab } from "./editorTab"
+import { PlanTab } from "./planTab";
 import { Timer } from "./timer";
 import { Tooltip } from "./tooltip"
 
@@ -89,7 +90,7 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                             return (
                                 <Tab.Panel key={index}>
                                     <Split className="h-[90vh] max-h-[90vh] flex flex-col" direction={"vertical"} minSize={150} gutterSize={10}>
-                                        <EditorTab recipe={tab}/>
+                                        { tab.plan ? <PlanTab plan={tab.plan}/> : <EditorTab recipe={tab}/>}
                                         {
                                             timers.length > 0 ? (
                                                 <Split className="flex h-full w-full" minSize={200}>

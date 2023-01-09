@@ -62,16 +62,29 @@ function Home() {
         return
       } else {
         const update = [...tabs]
-        const path = currentDirectory.split("/").join("+") + "+" + data
-        fetch(`/api/recipe/${path}`)
-        .then((res) => res.json())
-        .then((data) => {
-          update[activeTabGroup].push(data)
-          setTabs(update)
-          const updateActiveTab = activeTab
-          updateActiveTab[activeTabGroup] = update[activeTabGroup].length-1
-          setActiveTab(updateActiveTab)
-        })
+        if (data.includes(".md")) {
+          const path = currentDirectory.split("/").join("+") + "+" + data
+          fetch(`/api/recipe/${path}`)
+          .then((res) => res.json())
+          .then((data) => {
+            update[activeTabGroup].push(data)
+            setTabs(update)
+            const updateActiveTab = activeTab
+            updateActiveTab[activeTabGroup] = update[activeTabGroup].length-1
+            setActiveTab(updateActiveTab)
+          })
+        } else {
+          const path = currentDirectory.split("/").join("+") + "+.metalspoon+plans+" + data + ".json"
+          fetch(`/api/plan/${path}`)
+          .then((res) => res.json())
+          .then((data) => {
+            update[activeTabGroup].push(data)
+            setTabs(update)
+            const updateActiveTab = activeTab
+            updateActiveTab[activeTabGroup] = update[activeTabGroup].length-1
+            setActiveTab(updateActiveTab)
+          })
+        }
       }
     }
   }
@@ -111,13 +124,13 @@ function Home() {
     if (e.altKey && e.keyCode === 87 && activeTab) {
       const tabId = activeTab[activeTabGroup]
       const tabName = tabs[activeTabGroup][tabId].id
-      console.log("tabName", tabName)
       handleCloseTab(tabName)
     }
     else if (e.altKey && e.keyCode === 220) {
       handleNewTabGroup()
     }
   }
+  console.log("tabs", tabs)
 
   return (
     <div>

@@ -50,9 +50,9 @@ export const SearchPanel = ({active, folder, currentDirectory, handleNewTab}) =>
                                     {result.cuisine}
                                 </div>
                                 <div className='text-xs max-w-full flex flex-wrap'>
-                                    {result.tags?.map((tag) => {
+                                    {result.tags?.map((tag, index) => {
                                         return (
-                                            <div className='bg-gray-800 whitespace-nowrap px-2 m-1 ml-0'>
+                                            <div key={index} className='bg-gray-800 whitespace-nowrap px-2 m-1 ml-0'>
                                                 {tag}
                                             </div>
                                         )

@@ -21,7 +21,6 @@ export const PlanPanel = ({active, folderName, currentDirectory, handleNewTab}) 
     }, [currentDirectory])
 
     const updatePlanList = (data) => {
-        console.log("update", data)
         const update = [...plans]
         update.push(data)
         setPlans(update)
@@ -46,7 +45,7 @@ export const PlanPanel = ({active, folderName, currentDirectory, handleNewTab}) 
                         }
                         {plans.map((plan, index) => {
                             return (
-                            <div key={index} tabIndex="0" className="opacity-60 hover:cursor-pointer hover:opacity-100 hover:bg-mono-900 p-1 overflow-y-auto scrollBarHide font-thin">
+                            <div key={index} tabIndex="0" className="opacity-60 hover:cursor-pointer hover:opacity-100 hover:bg-mono-900 p-1 overflow-y-auto scrollBarHide font-thin" onClick={(e) => {handleNewTab(plan)}}>
                                 {plan}
                             </div>
                             )
