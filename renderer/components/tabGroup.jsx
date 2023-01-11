@@ -6,7 +6,7 @@ import { PlanTab } from "./planTab";
 import { Timer } from "./timer";
 import { Tooltip } from "./tooltip"
 
-export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup}) => {
+export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup, currentDirectory, updateRecipe}) => {
     const [timers, setTimers] = useState([])
     const [changed, setChanged] = useState([])
 
@@ -36,6 +36,12 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
         setChanged(update)
     }
 
+    const handleSaved = (index) => {
+        const update =[...changed]
+        update[index] = false
+        setChanged(update)
+    }
+
     return (
         <>
         {
@@ -51,7 +57,7 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                                     <Tab key={i}>
                                     {({ selected }) => (
                                         <div className="group flex items-center ui-selected:bg-pink-700 ui-selected:outline-none focus:border-none focus:outline-none p-3 rounded" onClick={(e) => {handleActiveTab(i, index)}}>
-                                        {tab.id}
+                                        {tab.id.replace(/\.md$/, '')}
                                         {
                                             changed[i] ? (
                                                 <>
@@ -115,7 +121,7 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                             return (
                                 <Tab.Panel key={index}>
                                     <Split className="h-[90vh] max-h-[90vh] flex flex-col" direction={"vertical"} minSize={150} gutterSize={10}>
-                                        { tab.plan ? <PlanTab index={index} plan={tab.plan} handleChanged={handleChanged}/> : <EditorTab index={index} recipe={tab} handleChanged={handleChanged}/>}
+                                        { tab.plan ? <PlanTab index={index} plan={tab.plan} handleChanged={handleChanged}/> : <EditorTab index={index} recipe={tab} handleChanged={handleChanged} handleSaved={handleSaved} currentDirectory={currentDirectory} updateRecipe={updateRecipe}/>}
                                         {
                                             timers.length > 0 ? (
                                                 <Split className="flex h-full w-full" minSize={200}>

@@ -1,23 +1,26 @@
 import fs from 'fs';
 import path from 'path';
+const TurndownService = require('turndown')
+const turndownService = new TurndownService()
 
-async function createMarkdownFile (string, directory) {
+async function createMarkdownFile (string, directory, title, content) {
   // Use path.join() to create a full file path
   const filePath = directory + '/' + `${string}.md`
-
-  fs.writeFile(filePath, " ", (err) => {
+  const headers = `---\ntitle: '${title}'\n---\n`
+  const markdown = turndownService.turndown(content)
+  fs.writeFile(filePath, headers + markdown, (err) => {
     if (err) throw err;
   });
-  const file = `${string}.md`
+  const file = {id: `${string}.md`, file: `${string}.md`, title: title, contentHtml: content}
   return file
 }
 
 export default async function handler(req, res) {
 
     if (req.method === 'POST') {
-        const {name, currentDirectory} = req.body
+        const {name, currentDirectory, title, body} = req.body
         try {
-            let recipe = await createMarkdownFile(name, currentDirectory)
+            let recipe = await createMarkdownFile(name, currentDirectory, title, body)
             res.status(200).json(recipe)
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong' });

@@ -20,7 +20,8 @@
     "react-split-it": "^2.0.0",
     "react-timer-hook": "^3.0.5",
     "remark": "^14.0.2",
-    "remark-html": "^15.0.1"
+    "remark-html": "^15.0.1",
+    "turndown": "^7.1.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.8",

@@ -3,7 +3,7 @@ import { Dropdown } from '../components/dropdown';
 
 export const ArchivePanel = ({active, folder, folderName, handleOpenDirectory, handleNewTab, currentDirectory, updateFileList}) => {
   const [files, setFiles] = useState()
-
+  
   useEffect(() => {
     setFiles(folder)
   }, [folder])
@@ -21,7 +21,7 @@ export const ArchivePanel = ({active, folder, folderName, handleOpenDirectory, h
                       {files.map((file, index) => {
                         return (
                           <div key={index} tabIndex="0" className="opacity-60 hover:cursor-pointer hover:opacity-100 hover:bg-mono-900 p-1 overflow-y-auto scrollBarHide font-thin" onClick={(e) => {handleNewTab(file)}}>
-                            {file}
+                            {file.replace(/\.md$/, '')}
                           </div>
                         )
                       })}

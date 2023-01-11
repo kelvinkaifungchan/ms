@@ -119,6 +119,13 @@ function Home() {
     setFolder(update.sort())
   }
 
+  const updateRecipe = (index, data) => {
+    const update = [...tabs]
+    update[activeTabGroup][index] = data
+    setTabs(update)
+  }
+  console.log(tabs)
+
   const handleHotkey = (e) => {
     // "Option" + "w" to close tab
     if (e.altKey && e.keyCode === 87 && activeTab) {
@@ -126,8 +133,12 @@ function Home() {
       const tabName = tabs[activeTabGroup][tabId].id
       handleCloseTab(tabName)
     }
+    // "Option" + "\" to split screen
     else if (e.altKey && e.keyCode === 220) {
       handleNewTabGroup()
+    }
+    else if (e.altKey && e.keyCode === 84 && activeTab) {
+      console.log("add timer")
     }
   }
 
@@ -151,7 +162,7 @@ function Home() {
                 {
                   tabs?.map((group, index) => {
                     return (
-                      <TabGroup active={index === activeTabGroup ? true : false} key={index} tabs={group} index={index} handleNewTab={handleNewTab} handleCloseTab={handleCloseTab} activeTab={activeTab[index]} handleActiveTab={handleActiveTab} handleNewTabGroup={handleNewTabGroup} handleActiveTabGroup={handleActiveTabGroup}/>
+                      <TabGroup active={index === activeTabGroup ? true : false} key={index} tabs={group} index={index} handleNewTab={handleNewTab} handleCloseTab={handleCloseTab} activeTab={activeTab[index]} handleActiveTab={handleActiveTab} handleNewTabGroup={handleNewTabGroup} handleActiveTabGroup={handleActiveTabGroup} currentDirectory={currentDirectory} updateRecipe={updateRecipe}/>
                     )
                   })
                 }
