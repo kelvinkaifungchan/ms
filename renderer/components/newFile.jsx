@@ -14,7 +14,7 @@ export const NewFile = ({toggle, currentDirectory, updateFileList}) => {
             setLoading(true)
             return axios.post('/api/recipe', { name: e.target.value, currentDirectory: currentDirectory})
             .then((res) => {
-                updateFileList(res.data.name)
+                updateFileList(res.data.id)
             })
             .then(() => {
                 setInput()

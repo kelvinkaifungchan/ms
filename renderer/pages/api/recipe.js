@@ -5,14 +5,24 @@ const turndownService = new TurndownService()
 
 async function createMarkdownFile (string, directory, title, content) {
   // Use path.join() to create a full file path
-  const filePath = directory + '/' + `${string}.md`
-  const headers = `---\ntitle: '${title}'\n---\n`
-  const markdown = turndownService.turndown(content)
-  fs.writeFile(filePath, headers + markdown, (err) => {
-    if (err) throw err;
-  });
-  const file = {id: `${string}.md`, file: `${string}.md`, title: title, contentHtml: content}
-  return file
+  if (content) {
+    const filePath = directory + '/' + `${string}.md`
+    const headers = `---\ntitle: '${title}'\n---\n`
+    const markdown = turndownService.turndown(content)
+    fs.writeFile(filePath, headers + markdown, (err) => {
+      if (err) throw err;
+    });
+    const file = {id: `${string}.md`, file: `${string}.md`, title: title, contentHtml: content}
+    return file
+  } else {
+    const filePath = directory + '/' + `${string}.md`
+    fs.writeFile(filePath, " ", (err) => {
+      if (err) throw err;
+    });
+    const file = {id: `${string}.md`, file: `${string}.md`, title: title, contentHtml: content}
+    return file
+  }
+
 }
 
 export default async function handler(req, res) {

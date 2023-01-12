@@ -124,7 +124,6 @@ function Home() {
     update[activeTabGroup][index] = data
     setTabs(update)
   }
-  console.log(tabs)
 
   const handleHotkey = (e) => {
     // "Option" + "w" to close tab
