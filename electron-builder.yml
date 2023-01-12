@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+appId: com.example.metalspoon
+productName: Metalspoon
+copyright: Copyright © 2023 Kelvin Kai Fung Chan
 directories:
   output: dist
   buildResources: resources
