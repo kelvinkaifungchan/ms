@@ -43,10 +43,3 @@ ipcMain.on('choose-directory', (event) => {
     event.reply('chosen-directory', result)
   })
 })
-
-ipcMain.on('open-file', (event, path) => {
-  shell.openPath(path)
-  .then(() => {
-    event.reply('opened-file')
-  })
-})

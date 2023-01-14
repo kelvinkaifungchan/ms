@@ -18,7 +18,7 @@ export const PlanDay = ({day, meal, changed}) => {
                 {day}
             </div>
             <div className="text-gray-800">
-                <textarea className="w-full resize-none h-[20vh] focus:outline-none " value={input || ""} onChange={(e) => {handleChange(e); changed()}} placeholder={"No meals planned"}/>
+                <textarea className="w-full resize-none h-[10vh] focus:outline-none bg-transparent" value={input || ""} onChange={(e) => {handleChange(e); changed()}} placeholder={"No meals planned"}/>
             </div>
         </div>
     )

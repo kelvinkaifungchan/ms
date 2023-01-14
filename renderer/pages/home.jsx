@@ -144,7 +144,7 @@ function Home() {
   return (
     <div>
       <Head>
-        <title>Spoon</title>
+        <title>Metalspoon</title>
       </Head>
       <div className='h-[4vh] drag flex justify-center font-bold p-2'>
       </div>

@@ -18,7 +18,7 @@ export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDir
         setInputs((prevState) => ({ ...prevState, [name]: e.target.innerHTML }))
     }
 
-    const handleSave = (e) => {
+    const handleHotkeys = (e) => {
         if (e.altKey && e.keyCode === 83) {
             setSaving(true)
             return axios.post('/api/recipe/', { name: recipe.id.replace(/\.md$/, ''), currentDirectory: currentDirectory, title: inputs.title, body: inputs.body})
@@ -33,8 +33,8 @@ export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDir
     }
 
     return (
-        <div className='p-20 pt-6 h-full overflow-scroll customScroll overflow-x-hidden px-5 rounded opacity-90 bg-white shadow-inset' onKeyDown={(e) => {handleSave(e)}} tabIndex="0">
-            <div className='flex justify-center'>ßßß
+        <div className='p-20 pt-6 h-full overflow-scroll customScroll overflow-x-hidden px-5 rounded opacity-90 bg-white shadow-inset' onKeyDown={(e) => {handleHotkeys(e)}} tabIndex="0">
+            <div className='flex justify-center'>
                 <div className='space-y-5 lg:w-1/2 min-w-[300px]'>
                     <div className="text-4xl text-gray-800 font-bold focus:outline-none" contentEditable onInput={(e) => {handleInputs(e, "title")}} dangerouslySetInnerHTML={{__html: recipe.title || recipe.id.replace(/\.md$/, '')}}/>
                     <div className='text-gray-800 font-bold'>
