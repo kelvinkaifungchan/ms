@@ -1,6 +1,6 @@
 import { app, ipcMain, dialog} from 'electron';
 import serve from 'electron-serve';
-import { createWindow } from './helpers';
+import { createWindow, getAllFiles } from './helpers';
 import { shell } from 'electron';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -33,6 +33,7 @@ app.on('window-all-closed', () => {
   app.quit();
 });
 
+//Routes
 ipcMain.on('choose-directory', (event) => {
   dialog.showOpenDialog({
     properties: [
@@ -40,6 +41,16 @@ ipcMain.on('choose-directory', (event) => {
     ]
   })
   .then((result) => {
-    event.reply('chosen-directory', result)
+    if (result.filePaths[0]) {
+      try {
+        let files = getAllFiles(result.filePaths[0])
+        event.reply('chosen-directory', {currentDirectory: result.filePaths[0], files: files})
+      } catch (e) {
+        console.log("error", e)
+      }
+    }
+    else {
+      event.reply('chosen-directory', "No directory chosen")
+    }
   })
 })

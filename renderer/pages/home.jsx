@@ -24,20 +24,15 @@ function Home() {
   const handleOpenDirectory = () => {
     ipcRenderer.send("choose-directory")
     ipcRenderer.on("chosen-directory", (e, message) => {
-      if (message.filePaths[0]) {
-        setCurrentDirectory(message.filePaths[0])
-        const path = message.filePaths[0].split("/").join("+")
-        fetch(`/api/folder/${path}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setArchive(data)
-          let processedFiles = data.files.map((file) => {
-            let f = file.split(message.filePaths[0] + "/")
-            return f[1]
-          })
-          setFolder(processedFiles.filter(file => file[0] != "."))
-          setFolderName(message.filePaths[0].split("/").pop().toUpperCase())
+      if (message.currentDirectory) {
+        setCurrentDirectory(message.currentDirectory)
+        setArchive(message.files)
+        let processedFiles = message.files.map((file) => {
+          let f = file.split(message.currentDirectory + "/")
+          return f[1]
         })
+        setFolder(processedFiles.filter(file => file[0] != "."))
+        setFolderName(message.currentDirectory.split("/").pop().toUpperCase())
       }
     })
   }
