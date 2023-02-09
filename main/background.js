@@ -1,7 +1,6 @@
-import { app, ipcMain, dialog} from 'electron';
+import { app, ipcMain, dialog, shell} from 'electron';
 import serve from 'electron-serve';
-import { createWindow, getAllFiles } from './helpers';
-import { shell } from 'electron';
+import { createWindow, getAllFiles, getRecipeData } from './helpers'
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -34,6 +33,7 @@ app.on('window-all-closed', () => {
 });
 
 //Routes
+//Choose directory and return all existing files
 ipcMain.on('choose-directory', (event) => {
   dialog.showOpenDialog({
     properties: [
@@ -53,4 +53,14 @@ ipcMain.on('choose-directory', (event) => {
       event.reply('chosen-directory', "No directory chosen")
     }
   })
+})
+
+ipcMain.on('recipe', (event, message) => {
+  if (!message.req) {
+    return
+  }
+  //Get data for a single recipe
+  else if (message.req === "GET") {
+    let recipe = getRecipeData(message.path, remark)
+  }
 })
