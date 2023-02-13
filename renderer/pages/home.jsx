@@ -60,16 +60,13 @@ function Home() {
         if (data.includes(".md")) {
           const path = currentDirectory + "/" + data
           ipcRenderer.send("recipe", {req: "GET", path: path})
-          console.log("clicked")
-          // fetch(`/api/recipe/${path}`)
-          // .then((res) => res.json())
-          // .then((data) => {
-          //   update[activeTabGroup].push(data)
-          //   setTabs(update)
-          //   const updateActiveTab = activeTab
-          //   updateActiveTab[activeTabGroup] = update[activeTabGroup].length-1
-          //   setActiveTab(updateActiveTab)
-          // })
+          ipcRenderer.on("recipe-data", (e, message) => {
+            update[activeTabGroup].push(message)
+            setTabs(update)
+            const updateActiveTab = activeTab
+            updateActiveTab[activeTabGroup] = update[activeTabGroup].length-1
+            setActiveTab(updateActiveTab)
+          })
         } else {
           const path = currentDirectory.split("/").join("+") + "+.metalspoon+plans+" + data + ".json"
           fetch(`/api/plan/${path}`)

@@ -55,12 +55,13 @@ ipcMain.on('choose-directory', (event) => {
   })
 })
 
-ipcMain.on('recipe', (event, message) => {
+ipcMain.on('recipe', async (event, message) => {
   if (!message.req) {
     return
   }
   //Get data for a single recipe
   else if (message.req === "GET") {
-    let recipe = getRecipeData(message.path, remark)
+    let recipe = await getRecipeData(message.path)
+    event.reply('recipe-data', recipe)
   }
 })

@@ -1,15 +1,23 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, createElement, Fragment } from "react"
 import axios from "axios"
+import {unified} from 'unified'
+import rehypeParse from 'rehype-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
+import remarkGfm from 'remark-gfm'
+import {micromark} from 'micromark'
 
 export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDirectory, updateRecipe}) => {
     const [inputs, setInputs] = useState()
     const [saving, setSaving] = useState(false)
+    const [content, setContent] = useState()
 
     useEffect(() => {
+        setContent(micromark(recipe.content))
         const object = {
             title: recipe.title,
-            body: recipe.contentHtml
-        }
+            body: micromark(recipe.content)
+            }
         setInputs(object)
     }, [recipe])
 
@@ -53,7 +61,7 @@ export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDir
                     }
                     </div>
                     <div>
-                        <div className='prose focus:outline-none leading-snug text-sm prose-hr:border-none prose-hr:my-1' contentEditable="true" dangerouslySetInnerHTML={{__html: recipe.contentHtml || "Add instructions..."}} onInput={(e) => {handleInputs(e, "body")}}></div>
+                        <div className='prose focus:outline-none leading-snug text-sm prose-hr:border-none prose-hr:my-1' contentEditable="true" dangerouslySetInnerHTML={{__html: content || "Add instructions..."}} onInput={(e) => {handleInputs(e, "body")}}></div>
                     </div>
                     {
                         saving ? 
