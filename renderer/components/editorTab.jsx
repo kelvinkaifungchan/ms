@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState, createElement, Fragment } from "react"
 import axios from "axios"
-import {unified} from 'unified'
-import rehypeParse from 'rehype-parse'
-import remarkRehype from 'remark-rehype'
-import rehypeStringify from 'rehype-stringify'
-import remarkGfm from 'remark-gfm'
 import {micromark} from 'micromark'
 
 export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDirectory, updateRecipe}) => {
