@@ -117,6 +117,7 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                         <Tab.Panels>
                         {
                             tabs?.map((tab, index) => {
+                                console.log(tab)
                             return (
                                 <Tab.Panel key={index}>
                                     <Split className="h-[90vh] max-h-[90vh] flex flex-col" direction={"vertical"} minSize={150} gutterSize={10}>

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, createElement, Fragment } from "react"
 import {micromark} from 'micromark'
 import { ipcRenderer } from "electron"
 
-export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDirectory, updateRecipe}) => {
+export const Editor = ({recipe, index, handleChanged, handleSaved, currentDirectory, updateRecipe}) => {
     const [inputs, setInputs] = useState()
     const [saving, setSaving] = useState(false)
     const [content, setContent] = useState()
@@ -38,7 +38,6 @@ export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDir
         <div className='p-20 pt-6 h-full overflow-scroll customScroll overflow-x-hidden px-5 rounded opacity-90 bg-white shadow-inset' onKeyDown={(e) => {handleHotkeys(e)}} tabIndex="0">
             <div className='flex justify-center'>
                 <div className='space-y-5 lg:w-1/2 min-w-[300px]'>
-                    <div className="text-4xl text-gray-800 font-bold focus:outline-none" contentEditable onInput={(e) => {handleInputs(e, "title")}} dangerouslySetInnerHTML={{__html: recipe.title || recipe.id.replace(/\.md$/, '')}}/>
                     <div className='text-gray-800 font-bold'>
                     {recipe.cuisine ? recipe.cuisine : null}
                     </div>
