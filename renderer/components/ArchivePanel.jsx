@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Dropdown } from '../components/dropdown';
+import { Dropdown } from '../components/Dropdown';
 
 export const ArchivePanel = ({active, folder, folderName, handleOpenDirectory, handleNewTab, currentDirectory, updateFileList}) => {
   const [files, setFiles] = useState()

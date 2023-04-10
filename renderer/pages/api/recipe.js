@@ -22,7 +22,6 @@ async function createMarkdownFile (string, directory, title, content) {
     const file = {id: `${string}.md`, file: `${string}.md`, title: title, contentHtml: content}
     return file
   }
-
 }
 
 export default async function handler(req, res) {

@@ -1,7 +1,7 @@
-import { app, ipcMain, dialog} from 'electron';
+import { app, ipcMain, dialog, shell} from 'electron';
 import serve from 'electron-serve';
-import { createWindow } from './helpers';
-import { shell } from 'electron';
+import { createWindow, getAllFiles, getRecipeData } from './helpers'
+import createMarkdown from './helpers/createMarkdown';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -33,6 +33,8 @@ app.on('window-all-closed', () => {
   app.quit();
 });
 
+//Routes
+//Choose directory and return all existing files
 ipcMain.on('choose-directory', (event) => {
   dialog.showOpenDialog({
     properties: [
@@ -40,6 +42,33 @@ ipcMain.on('choose-directory', (event) => {
     ]
   })
   .then((result) => {
-    event.reply('chosen-directory', result)
+    if (result.filePaths[0]) {
+      try {
+        let files = getAllFiles(result.filePaths[0])
+        event.reply('chosen-directory', {currentDirectory: result.filePaths[0], files: files})
+      } catch (e) {
+        console.log("error", e)
+      }
+    }
+    else {
+      event.reply('chosen-directory', "No directory chosen")
+    }
   })
+})
+
+ipcMain.on('recipe', async (event, message) => {
+  console.log("message", message)
+  if (!message.req) {
+    return
+  }
+  //Get data for a single recipe
+  else if (message.req === "GET") {
+    let recipe = await getRecipeData(message.path)
+    event.reply('recipe-data', recipe)
+  }
+  else if (message.req === "POST") {
+    //Save recipe
+    let md = await createMarkdown(message.name, message.path, message.title, message.body)
+    event.reply('update-md', md)
+  }
 })

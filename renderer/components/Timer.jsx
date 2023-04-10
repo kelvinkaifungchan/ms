@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Tooltip } from "./tooltip"
+import { Tooltip } from "./Tooltip"
 import { useTimer } from 'react-timer-hook'
 
 const Countdown = () => {

@@ -1,6 +1,6 @@
 appId: com.example.metalspoon
 productName: Metalspoon
-copyright: Copyright © 2023 Kelvin Kai Fung Chan
+copyright: Copyright © 2023 Kai Fung Kelvin Chan
 directories:
   output: dist
   buildResources: resources

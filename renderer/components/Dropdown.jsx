@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { NewFile } from "./newFile"
+import { NewFileInput } from "./NewFileInput"
 
 export const Dropdown = ({title, children, currentDirectory, updateFileList}) => {
     const [toggle, setToggle] = useState(false)
@@ -49,7 +49,7 @@ export const Dropdown = ({title, children, currentDirectory, updateFileList}) =>
                             </span>
                         </div>
                         <div className="pl-4 overflow-auto h-[88.5vh] customScroll">
-                            { newFile ? <NewFile toggle={newFileToggle} currentDirectory={currentDirectory} updateFileList={updateFileList}/> : null}
+                            { newFile ? <NewFileInput toggle={newFileToggle} currentDirectory={currentDirectory} updateFileList={updateFileList}/> : null}
                             <div className={ newFile ? "opacity-30" : "opacity-100"}>
                                 {children}
                             </div>

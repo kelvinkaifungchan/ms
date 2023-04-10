@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from 'axios';
 
-export const NewPlan = ({toggle, currentDirectory, updatePlanList}) => {
+export const NewFileInput = ({toggle, currentDirectory, updateFileList}) => {
     const [input, setInput] = useState()
     const [loading, setLoading] = useState(false)
 
@@ -12,9 +12,9 @@ export const NewPlan = ({toggle, currentDirectory, updatePlanList}) => {
     const handleSubmit = (e) => {
         if (e.key === "Enter" && input?.length > 0) {
             setLoading(true)
-            return axios.post('/api/plan', { name: e.target.value, directory: currentDirectory + "/.metalspoon/plans"})
+            return axios.post('/api/recipe', { name: e.target.value, currentDirectory: currentDirectory})
             .then((res) => {
-                updatePlanList(res.data)
+                updateFileList(res.data.id)
             })
             .then(() => {
                 setInput()

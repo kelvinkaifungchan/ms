@@ -1,15 +1,18 @@
-import { useEffect, useRef, useState } from "react"
-import axios from "axios"
+import { useEffect, useRef, useState, createElement, Fragment } from "react"
+import {micromark} from 'micromark'
+import { ipcRenderer } from "electron"
 
 export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDirectory, updateRecipe}) => {
     const [inputs, setInputs] = useState()
     const [saving, setSaving] = useState(false)
+    const [content, setContent] = useState()
 
     useEffect(() => {
+        setContent(micromark(recipe.content))
         const object = {
             title: recipe.title,
-            body: recipe.contentHtml
-        }
+            body: micromark(recipe.content)
+            }
         setInputs(object)
     }, [recipe])
 
@@ -19,13 +22,12 @@ export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDir
     }
 
     const handleHotkeys = (e) => {
+        // Save markdown
         if (e.altKey && e.keyCode === 83) {
-            setSaving(true)
-            return axios.post('/api/recipe/', { name: recipe.id.replace(/\.md$/, ''), currentDirectory: currentDirectory, title: inputs.title, body: inputs.body})
-            .then((res) => {
-                updateRecipe(index, res.data)
-            })
-            .then(() => {
+            // setSaving(true)
+            ipcRenderer.send("recipe", {req: "POST", name: recipe.id.replace(/\.md$/, ''), path: currentDirectory, title: inputs.title, body: inputs.body})
+            ipcRenderer.on("update-md", (e, message) => {
+                updateRecipe(index, message)
                 setSaving(false)
                 handleSaved(index)
             })
@@ -53,7 +55,7 @@ export const EditorTab = ({recipe, index, handleChanged, handleSaved, currentDir
                     }
                     </div>
                     <div>
-                        <div className='prose focus:outline-none leading-snug text-sm prose-hr:border-none prose-hr:my-1' contentEditable="true" dangerouslySetInnerHTML={{__html: recipe.contentHtml || "Add instructions..."}} onInput={(e) => {handleInputs(e, "body")}}></div>
+                        <div className='prose focus:outline-none leading-snug text-sm prose-hr:border-none prose-hr:my-1' contentEditable="true" dangerouslySetInnerHTML={{__html: content || "Add instructions..."}} onInput={(e) => {handleInputs(e, "body")}}></div>
                     </div>
                     {
                         saving ? 

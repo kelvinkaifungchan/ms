@@ -1,4 +1,4 @@
-import { Tooltip } from "./tooltip"
+import { Tooltip } from "./Tooltip"
 
 export const ToolBar = ({handleActiveTool}) => {
     return (

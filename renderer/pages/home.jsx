@@ -4,11 +4,10 @@ import { useRouter } from 'next/router';
 import electron from "electron"
 const ipcRenderer = electron.ipcRenderer || false;
 import Split from 'react-split-it';
-import { ToolBar } from '../components/toolBar';
-import { ArchivePanel } from '../components/archivePanel';
-import { SearchPanel } from '../components/searchPanel';
-import { TabGroup } from '../components/tabGroup';
-import { PlanPanel } from '../components/planPanel';
+import { ToolBar } from '../components/Toolbar';
+import { ArchivePanel } from '../components/ArchivePanel';
+import { SearchPanel } from '../components/SearchPanel';
+import { TabGroup } from '../components/TabGroup';
 
 function Home() {
   const router = useRouter()
@@ -24,20 +23,15 @@ function Home() {
   const handleOpenDirectory = () => {
     ipcRenderer.send("choose-directory")
     ipcRenderer.on("chosen-directory", (e, message) => {
-      if (message.filePaths[0]) {
-        setCurrentDirectory(message.filePaths[0])
-        const path = message.filePaths[0].split("/").join("+")
-        fetch(`/api/folder/${path}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setArchive(data)
-          let processedFiles = data.files.map((file) => {
-            let f = file.split(message.filePaths[0] + "/")
-            return f[1]
-          })
-          setFolder(processedFiles.filter(file => file[0] != "."))
-          setFolderName(message.filePaths[0].split("/").pop().toUpperCase())
+      if (message.currentDirectory) {
+        setCurrentDirectory(message.currentDirectory)
+        setArchive(message.files)
+        let processedFiles = message.files.map((file) => {
+          let f = file.split(message.currentDirectory + "/")
+          return f[1]
         })
+        setFolder(processedFiles.filter(file => file[0] != "."))
+        setFolderName(message.currentDirectory.split("/").pop().toUpperCase())
       }
     })
   }
@@ -63,11 +57,10 @@ function Home() {
       } else {
         const update = [...tabs]
         if (data.includes(".md")) {
-          const path = currentDirectory.split("/").join("+") + "+" + data
-          fetch(`/api/recipe/${path}`)
-          .then((res) => res.json())
-          .then((data) => {
-            update[activeTabGroup].push(data)
+          const path = currentDirectory + "/" + data
+          ipcRenderer.send("recipe", {req: "GET", path: path})
+          ipcRenderer.on("recipe-data", (e, message) => {
+            update[activeTabGroup].push(message)
             setTabs(update)
             const updateActiveTab = activeTab
             updateActiveTab[activeTabGroup] = update[activeTabGroup].length-1
@@ -155,7 +148,6 @@ function Home() {
               <div>
                 <ArchivePanel active={activeTool === 0} folder={folder} folderName={folderName} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory} currentDirectory={currentDirectory} updateFileList={updateFileList}/>
                 <SearchPanel active={activeTool === 1} folder={folder} currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
-                <PlanPanel active={activeTool === 2} folderName={folderName} currentDirectory={currentDirectory} handleNewTab={handleNewTab}/>
               </div>
               <Split className='flex w-full h-full' direction="horizontal" gutterSize={10} minSize={100}>
                 {

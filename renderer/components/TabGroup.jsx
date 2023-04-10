@@ -1,10 +1,9 @@
 import { Tab } from "@headlessui/react"
 import { useEffect, useState } from "react"
 import Split from 'react-split-it';
-import { EditorTab } from "./editorTab"
-import { PlanTab } from "./planTab";
-import { Timer } from "./timer";
-import { Tooltip } from "./tooltip"
+import { Editor } from "./Editor"
+import { Timer } from "./Timer";
+import { Tooltip } from "./Tooltip"
 
 export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handleActiveTab, handleNewTabGroup, handleActiveTabGroup, currentDirectory, updateRecipe}) => {
     const [timers, setTimers] = useState([])
@@ -121,7 +120,7 @@ export const TabGroup = ({active, tabs, index, handleCloseTab, activeTab, handle
                             return (
                                 <Tab.Panel key={index}>
                                     <Split className="h-[90vh] max-h-[90vh] flex flex-col" direction={"vertical"} minSize={150} gutterSize={10}>
-                                        { tab.plan ? <PlanTab index={index} plan={tab.plan} handleChanged={handleChanged}/> : <EditorTab index={index} recipe={tab} handleChanged={handleChanged} handleSaved={handleSaved} currentDirectory={currentDirectory} updateRecipe={updateRecipe}/>}
+                                        <Editor index={index} recipe={tab} handleChanged={handleChanged} handleSaved={handleSaved} currentDirectory={currentDirectory} updateRecipe={updateRecipe}/>
                                         {
                                             timers.length > 0 ? (
                                                 <Split className="flex h-full w-full" minSize={200}>

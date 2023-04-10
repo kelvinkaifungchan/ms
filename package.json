@@ -11,17 +11,17 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@babel/register": "^7.18.9",
     "@headlessui/react": "^1.7.7",
     "@headlessui/tailwindcss": "^0.1.2",
     "axios": "^1.2.2",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "gray-matter": "^4.0.3",
+    "micromark": "^3.1.0",
     "node-ipc": "^11.1.0",
     "react-split-it": "^2.0.0",
     "react-timer-hook": "^3.0.5",
-    "remark": "^14.0.2",
-    "remark-html": "^15.0.1",
     "turndown": "^7.1.1"
   },
   "devDependencies": {
