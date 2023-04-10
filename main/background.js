@@ -1,6 +1,7 @@
 import { app, ipcMain, dialog, shell} from 'electron';
 import serve from 'electron-serve';
 import { createWindow, getAllFiles, getRecipeData } from './helpers'
+import createMarkdown from './helpers/createMarkdown';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -56,6 +57,7 @@ ipcMain.on('choose-directory', (event) => {
 })
 
 ipcMain.on('recipe', async (event, message) => {
+  console.log("message", message)
   if (!message.req) {
     return
   }
@@ -63,5 +65,10 @@ ipcMain.on('recipe', async (event, message) => {
   else if (message.req === "GET") {
     let recipe = await getRecipeData(message.path)
     event.reply('recipe-data', recipe)
+  }
+  else if (message.req === "POST") {
+    //Save recipe
+    let md = await createMarkdown(message.name, message.path, message.title, message.body)
+    event.reply('update-md', md)
   }
 })
