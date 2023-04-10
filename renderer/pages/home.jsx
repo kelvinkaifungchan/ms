@@ -4,11 +4,10 @@ import { useRouter } from 'next/router';
 import electron from "electron"
 const ipcRenderer = electron.ipcRenderer || false;
 import Split from 'react-split-it';
-import { ToolBar } from '../components/toolBar';
-import { ArchivePanel } from '../components/archivePanel';
-import { SearchPanel } from '../components/searchPanel';
-import { TabGroup } from '../components/tabGroup';
-import { PlanPanel } from '../components/planPanel';
+import { ToolBar } from '../components/Toolbar';
+import { ArchivePanel } from '../components/ArchivePanel';
+import { SearchPanel } from '../components/SearchPanel';
+import { TabGroup } from '../components/TabGroup';
 
 function Home() {
   const router = useRouter()
@@ -149,7 +148,6 @@ function Home() {
               <div>
                 <ArchivePanel active={activeTool === 0} folder={folder} folderName={folderName} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory} currentDirectory={currentDirectory} updateFileList={updateFileList}/>
                 <SearchPanel active={activeTool === 1} folder={folder} currentDirectory={currentDirectory} handleNewTab={handleNewTab} handleOpenDirectory={handleOpenDirectory}/> 
-                <PlanPanel active={activeTool === 2} folderName={folderName} currentDirectory={currentDirectory} handleNewTab={handleNewTab}/>
               </div>
               <Split className='flex w-full h-full' direction="horizontal" gutterSize={10} minSize={100}>
                 {
