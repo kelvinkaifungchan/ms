@@ -42,17 +42,9 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         </Tooltip>
       </div>
       <div>
-        <Tooltip tooltip={"Finder"} position={"translate-x-11"}>
+        <Tooltip tooltip={"Settings"} position={"translate-x-11"}>
           <div
-            className={`hover:opacity-100 hover:cursor-pointer ${
-              activeTool === 0 ? "opacity-70" : "opacity-30"
-            }`}
-            onClick={(e) => {
-              handleActiveTool(0);
-              if (activeTool === 0) {
-                handlePanelToggle();
-              }
-            }}>
+            className={`hover:opacity-100 hover:cursor-pointer opacity-30`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -190,12 +190,6 @@ function Home() {
     setActiveTab(updateActiveTab);
   };
 
-  const updateTab = (tabIndex, data) => {
-    const update = [...tabs];
-    update[activeTabGroup][tabIndex] = data;
-    setTabs(update);
-  }
-
   return (
     <div>
       <Head>
@@ -258,11 +252,6 @@ function Home() {
                       handleNewTabGroup={handleNewTabGroup}
                       handleActiveTabGroup={handleActiveTabGroup}
                       handleOpenDirectory={handleOpenDirectory}
-                      setTabs={setTabs}
-                      allTabs={tabs}
-                      tabGroupIndex={index}
-                      refresh={handleRefresh}
-                      updateTab={updateTab}
                     />
                   );
                 })}

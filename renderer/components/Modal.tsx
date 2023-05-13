@@ -12,7 +12,7 @@ export const Modal = ({children, name, modal, toggle }) => {
                                 {name}
                             </div>
                             <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6 hover:bg-hlgreen rounded-md hover:cursor-pointer" onClick={() => {toggle()}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6 hover:bg-hl rounded-md hover:cursor-pointer" onClick={() => {toggle()}}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </div>

@@ -11,7 +11,7 @@ export const Footer = ({ refreshing }) => {
         ) : null}
       </div>
       <div className="space-x-2">
-        <span>Aether v.0.1.0-beta</span>
+        <span>MS v.0.1.0-beta</span>
       </div>
     </div>
   );

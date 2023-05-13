@@ -24,6 +24,7 @@
     "react-icons": "^4.8.0",
     "react-spinners": "^0.13.8",
     "react-split-it": "^2.0.0",
+    "react-timer-hook": "^3.0.5",
     "sharp": "^0.32.1",
     "turndown": "^7.1.2"
   },

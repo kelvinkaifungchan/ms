@@ -27,7 +27,7 @@ export const Editor = ({
   const findTag = (content) => {
     const newContent = content.replace(
       /(^|\s)(#\w+)\b/g,
-      `$1<span class="bg-hl rounded-md px-1">$2</span> `
+      `$1<span class="bg-hl rounded-xl px-3">$2</span>`
     );
     return newContent
   }
@@ -36,6 +36,7 @@ export const Editor = ({
     const editedContent = findTag(e.target.value);
     setContent(editedContent);
   };
+  console.log(content)
 
   return (
     <div
@@ -44,7 +45,7 @@ export const Editor = ({
       <div className="flex justify-center w-full h-full overflow-y-auto customScroll min-w-[300px] p-5">
         <div className="space-y-5 max-w-[600px]">
           <ContentEditable
-            className="text-base focus:outline-none prose"
+            className="text-xl focus:outline-none prose prose-dark prose-p:whitespace-pre-wrap prose-p:my-0 prose-hr:my-4 prose-ul:my-1 prose-li:my-1 prose-ol:my-1 prose-lead:"
             html={content}
             onChange={handleInput}
           />

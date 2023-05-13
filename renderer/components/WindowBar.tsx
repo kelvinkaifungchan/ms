@@ -37,7 +37,7 @@ export const WindowBar = ({ dir, refresh, refreshing }) => {
               viewBox="0 0 24 24"
               strokeWidth={1}
               stroke="currentColor"
-              className="w-6 h-6 hover:bg-hlgreen rounded-md hover:cursor-pointer animate-spin opacity-50">
+              className="w-6 h-6 hover:bg-hl rounded-md hover:cursor-pointer animate-spin opacity-50">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -54,7 +54,7 @@ export const WindowBar = ({ dir, refresh, refreshing }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1}
                 stroke="currentColor"
-                className="w-6 h-6 hover:bg-hlgreen rounded-md hover:cursor-pointer"
+                className="w-6 h-6 hover:bg-hl rounded-md hover:cursor-pointer"
                 onClick={() => {
                   refresh();
                 }}>

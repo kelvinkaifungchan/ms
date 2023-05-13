@@ -12,7 +12,7 @@ export const NewFileDropdown = () => {
           viewBox="0 0 24 24"
           strokeWidth={1}
           stroke="currentColor"
-          className="w-6 h-6 hover:cursor-pointer hover:bg-hlgreen rounded-md">
+          className="w-6 h-6 hover:cursor-pointer hover:bg-hl rounded-md">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

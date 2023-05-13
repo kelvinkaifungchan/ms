@@ -44,12 +44,12 @@ input:focus {
 
 .customScroll::-webkit-scrollbar
 {
-	width: 3px;
+	width: 10px;
 }
 
 .customScroll::-webkit-scrollbar-thumb
 {
-  background: #00ff0044;
+  background: #91d7be22;
   opacity: 0.5;
 }
 
