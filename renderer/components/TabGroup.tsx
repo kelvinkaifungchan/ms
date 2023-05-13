@@ -10,6 +10,7 @@ import { Welcome } from "./Welcome";
 //Icons
 import { BsCircleFill } from "react-icons/bs";
 import { FileIcon } from "./FileIcon";
+import { VscLayoutSidebarRight, VscLayoutPanel } from "react-icons/vsc";
 
 export const TabGroup = ({
   dir,
@@ -26,6 +27,7 @@ export const TabGroup = ({
 }) => {
   const [changed, setChanged] = useState([]);
   const [timers, setTimers] = useState([]);
+  const [timerRight, setTimerRight] = useState(true);
 
   useEffect(() => {
     const change = [];
@@ -180,6 +182,32 @@ export const TabGroup = ({
                             </svg>
                           </div>
                         </Tooltip>
+                        {timerRight ? (
+                          <Tooltip
+                            tooltip={"Split Timer Bottom"}
+                            position={"-translate-x-28 translate-y-10"}>
+                            <div
+                              className="p-1 hover:bg-hl rounded hover:cursor-pointer"
+                              onClick={() => {
+                                setTimerRight(false);
+                              }}>
+                              <VscLayoutPanel className="w-5 h-5" />
+                            </div>
+                          </Tooltip>
+                        ) : (
+                          <Tooltip
+                            tooltip={"Split Timer Right"}
+                            position={"-translate-x-28 translate-y-10"}>
+                            <div
+                              className="p-1 hover:bg-hl rounded hover:cursor-pointer"
+                              onClick={() => {
+                                setTimerRight(true);
+                              }}>
+                              <VscLayoutSidebarRight className="w-5 h-5" />
+                            </div>
+                          </Tooltip>
+                        )}
+
                         <Tooltip
                           tooltip={"Split Editor Right (⌥)"}
                           position={"-translate-x-28 translate-y-10"}>
@@ -201,6 +229,7 @@ export const TabGroup = ({
                                 d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z"
                               />
                             </svg>
+                            
                           </div>
                         </Tooltip>
                       </div>
@@ -212,10 +241,10 @@ export const TabGroup = ({
                     return (
                       <Tab.Panel
                         key={index}
-                        className="flex flex-col h-full w-full overflow-hidden">
+                        className={`flex  h-full w-full overflow-hidden flex-col`}>
                         <Split
-                          className="h-full w-full flex"
-                          direction={"horizontal"}
+                          className={`h-full w-full flex ${timerRight ? "" : "flex-col"}`}
+                          direction={timerRight ? "horizontal" : "vertical"}
                           minSize={150}
                           gutterSize={10}
                           sizes={[0.7, 0.2]}>
@@ -230,7 +259,7 @@ export const TabGroup = ({
                           ) : null}
                           {timers.length > 0 ? (
                             <Split
-                              className="flex flex-col h-full w-full"
+                              className={`flex  h-full w-full ${ timerRight ? "flex-col" : null}`}
                               minSize={200}
                               direction={"vertical"}
                               gutterSize={10}>

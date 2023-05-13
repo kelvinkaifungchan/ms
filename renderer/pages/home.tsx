@@ -9,6 +9,7 @@ import { ipcRenderer } from "electron";
 import { Toaster } from "react-hot-toast";
 import { Toolbar } from "@/components/Toolbar";
 import { FilePanel } from "@/components/FilePanel";
+import { SearchPanel } from "@/components/SearchPanel";
 import { TabGroup } from "@/components/TabGroup";
 import { Footer } from "@/components/Footer";
 import { WindowBar } from "@/components/WindowBar";
@@ -220,18 +221,35 @@ function Home() {
               sizes={[0.1, 0.7]}
               minSize={100}>
               {panel ? (
-                <div className="h-full overflow-y-hidden opacity-90">
-                  <FilePanel
-                    refresh={() => {
-                      handleRefresh();
-                    }}
-                    active={activeTool === 0}
-                    dir={dir}
-                    files={files}
-                    handleOpenNewDirectory={handleOpenNewDirectory}
-                    handleNewTab={handleNewTab}
-                  />
-                </div>
+                <>
+                  {activeTool === 0 ? (
+                    <div className="h-full overflow-y-hidden opacity-90">
+                      <FilePanel
+                        refresh={() => {
+                          handleRefresh();
+                        }}
+                        active={activeTool === 0}
+                        dir={dir}
+                        files={files}
+                        handleOpenNewDirectory={handleOpenNewDirectory}
+                        handleNewTab={handleNewTab}
+                      />
+                    </div>
+                  ) : activeTool === 1 ? (
+                    <div className="h-full overflow-y-hidden opacity-90">
+                      <SearchPanel
+                        refresh={() => {
+                          handleRefresh();
+                        }}
+                        active={activeTool === 1}
+                        dir={dir}
+                        files={files}
+                        handleOpenNewDirectory={handleOpenNewDirectory}
+                        handleNewTab={handleNewTab}
+                      />
+                    </div>
+                  ) : null}
+                </>
               ) : null}
               <Split
                 className="flex w-full h-full overflow-hidden pr-1"
@@ -260,7 +278,7 @@ function Home() {
             </Split>
           </div>
         </div>
-        <Footer refreshing={refreshing}/>
+        <Footer refreshing={refreshing} />
       </main>
     </div>
   );
