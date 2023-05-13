@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Tooltip } from "./Tooltip"
 import { useTimer } from 'react-timer-hook'
 
@@ -12,6 +12,19 @@ const Countdown = () => {
     const [input, setInput] = useState("10")
     const [expiryTimestamp, setExpiryTimeStamp] = useState()
     const [done, setDone] = useState(false)
+    const [audioContext] = useState(new AudioContext())
+
+    useEffect(() => {
+        if (done) {
+            setInput("10")
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+    }, [done])
 
     const handleInput = (e) => {
         if (expiryTimestamp) {
