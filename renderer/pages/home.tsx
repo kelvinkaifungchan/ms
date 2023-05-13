@@ -82,7 +82,9 @@ function Home() {
   //Tab Functions
   const handleNewTabGroup = () => {
     const update = [...tabs];
-    update.push([]);
+    const tab = activeTab[activeTabGroup];
+    const content = tabs[activeTabGroup][tab];
+    update.push([content]);
     setTabs(update);
   };
 
@@ -145,12 +147,20 @@ function Home() {
     setActiveTab(updateActiveTab);
   };
 
+  const handleHotKey = (e) => {
+    if (e.code === "Backslash" && e.metaKey) {
+      handleNewTabGroup();
+    }
+  }
+
   return (
     <div>
       <Head>
         <title>Proximity Native</title>
       </Head>
-      <main className="h-screen max-h-screen flex flex-col overflow-hidden focus:outline-none">
+      <main className="h-screen max-h-screen flex flex-col overflow-hidden focus:outline-none" onKeyDown={(e) => {
+        handleHotKey(e)
+      }}>
         <Toaster position="top-center" reverseOrder={false} />
         <WindowBar
           dir={dir}

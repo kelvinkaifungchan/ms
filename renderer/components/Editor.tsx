@@ -39,8 +39,7 @@ export const Editor = ({
 
   return (
     <div
-      className="h-full w-full overflow-hidden opacity-90"
-      tabIndex={0}>
+      className="h-full w-full overflow-hidden opacity-90">
       <div className="flex justify-center w-full h-full overflow-y-auto customScroll min-w-[300px] p-5">
         <div className="space-y-5 max-w-[600px]">
           <ContentEditable

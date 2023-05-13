@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Tooltip } from "./Tooltip";
+import { SettingModal } from "./SettingModal";
 
 interface ToolBarProps {
   handleActiveTool: (tool: number) => void;
@@ -11,6 +13,8 @@ export const Toolbar: React.FC<ToolBarProps> = ({
   activeTool,
   handlePanelToggle,
 }) => {
+  const [settingModal, setSettingModal] = useState(false);
+
   return (
     <div className="p-3 flex flex-col justify-between bg-secondaryBg">
       <div className="space-y-3">
@@ -95,7 +99,9 @@ export const Toolbar: React.FC<ToolBarProps> = ({
       </div>
       <div>
         <Tooltip tooltip={"Settings"} position={"translate-x-11"}>
-          <div className={`hover:opacity-100 hover:cursor-pointer opacity-30`}>
+          <div className={`hover:opacity-100 hover:cursor-pointer opacity-30`} onClick={() => {
+            setSettingModal(!settingModal)
+          }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -116,6 +122,7 @@ export const Toolbar: React.FC<ToolBarProps> = ({
             </svg>
           </div>
         </Tooltip>
+        <SettingModal modal={settingModal} toggle={() => {setSettingModal(!settingModal)}}/>
       </div>
     </div>
   );

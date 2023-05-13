@@ -1,5 +1,5 @@
 export const HorizontalLine = () => {
     return (
-        <hr className='border-t-lightgreen'/>
+        <hr className='border-t-hl'/>
     )
 }

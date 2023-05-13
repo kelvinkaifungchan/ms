@@ -19,7 +19,7 @@ export const Button: React.FC<ButtonProps> = ({button, submit, disabled, type}) 
             )
             :
             (
-                <button disabled={disabled || false} className={`p-1 border border-lightgreen rounded-md ${ disabled ? "opacity-50" : "hover:cursor-pointer hover:opacity-50"} duration-150`} onClick={(e) => {submit ? submit(e) : null}}>
+                <button disabled={disabled || false} className={`p-1 bg-primary text-black border border-hl rounded-md ${ disabled ? "opacity-50" : "hover:cursor-pointer hover:opacity-50"} duration-150`} onClick={(e) => {submit ? submit(e) : null}}>
                     {button}
                 </button>
             )

@@ -117,22 +117,24 @@ export const TabGroup = ({
                                     </svg>
                                   </>
                                 ) : selected ? (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1}
-                                    stroke="currentColor"
-                                    className="w-4 h-4 rounded-md hover:bg-hl ml-3"
+                                  <div
                                     onClick={(e) => {
                                       handleCloseTab(tab.id);
                                     }}>
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M6 18L18 6M6 6l12 12"
-                                    />
-                                  </svg>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      strokeWidth={1}
+                                      stroke="currentColor"
+                                      className="w-4 h-4 rounded-md hover:bg-hl ml-3">
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                      />
+                                    </svg>
+                                  </div>
                                 ) : (
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -229,7 +231,6 @@ export const TabGroup = ({
                                 d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z"
                               />
                             </svg>
-                            
                           </div>
                         </Tooltip>
                       </div>
@@ -243,7 +244,9 @@ export const TabGroup = ({
                         key={index}
                         className={`flex  h-full w-full overflow-hidden flex-col`}>
                         <Split
-                          className={`h-full w-full flex ${timerRight ? "" : "flex-col"}`}
+                          className={`h-full w-full flex ${
+                            timerRight ? "" : "flex-col"
+                          }`}
                           direction={timerRight ? "horizontal" : "vertical"}
                           minSize={150}
                           gutterSize={10}
@@ -259,7 +262,9 @@ export const TabGroup = ({
                           ) : null}
                           {timers.length > 0 ? (
                             <Split
-                              className={`flex  h-full w-full ${ timerRight ? "flex-col" : null}`}
+                              className={`flex  h-full w-full ${
+                                timerRight ? "flex-col" : null
+                              }`}
                               minSize={200}
                               direction={"vertical"}
                               gutterSize={10}>
@@ -285,13 +290,34 @@ export const TabGroup = ({
               </Tab.Group>
             </div>
           ) : (
-            <div
-              className="w-full h-full flex items-center justify-center"
-              onClick={(e) => {
-                handleActiveTabGroup(index);
-              }}>
-              No File Open
-            </div>
+            <>
+              <div className="p-2 flex items-center">
+                Empty Tab{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1}
+                  stroke="currentColor"
+                  className="w-4 h-4 rounded-md hover:bg-hl ml-3"
+                  onClick={() => {
+                    console.log("clicked");
+                  }}>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <div
+                className="w-full h-full flex items-center justify-center"
+                onClick={(e) => {
+                  handleActiveTabGroup(index);
+                }}>
+                No File Open
+              </div>
+            </>
           )}
         </>
       ) : (
