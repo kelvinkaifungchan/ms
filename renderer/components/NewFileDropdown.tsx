@@ -23,7 +23,10 @@ export const NewFileDropdown = () => {
       <DropdownMenu.Portal>
         <PopDropdownContent>
           <PopDropdownItem>
-            <div>New Folder</div>
+            <div>+ New Folder</div>
+          </PopDropdownItem>
+          <PopDropdownItem>
+            <div>+ New File</div>
           </PopDropdownItem>
           <DropdownMenu.Arrow className="DropdownMenuArrow" />
         </PopDropdownContent>

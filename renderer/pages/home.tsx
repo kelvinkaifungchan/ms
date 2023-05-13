@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { Toolbar } from "@/components/Toolbar";
 import { FilePanel } from "@/components/FilePanel";
 import { SearchPanel } from "@/components/SearchPanel";
+import { GroceryPanel } from "@/components/GroceryPanel";
 import { TabGroup } from "@/components/TabGroup";
 import { Footer } from "@/components/Footer";
 import { WindowBar } from "@/components/WindowBar";
@@ -97,7 +98,7 @@ function Home() {
   const handleNewTab = (fileName) => {
     if (tabs[activeTabGroup]) {
       if (
-        tabs[activeTabGroup].filter((tab) => tab.id === fileName).length > 0
+        tabs[activeTabGroup].filter((tab) => tab.id === path.basename(fileName)).length > 0
       ) {
         return;
       } else {
@@ -114,52 +115,6 @@ function Home() {
                 update[activeTabGroup].length - 1;
               setActiveTab(updateActiveTab);
             });
-        } else if (isImageFile(fileName)) {
-          const fullPath = path.join(dir, fileName);
-          fs.readFile(fullPath, (err, res) => {
-            if (err) throw err;
-            update[activeTabGroup].push({ id: fileName, data: res });
-            setTabs(update);
-            const updateActiveTab = activeTab;
-            updateActiveTab[activeTabGroup] = update[activeTabGroup].length - 1;
-            setActiveTab(updateActiveTab);
-          });
-          return;
-        } else if (fileName.includes(".pcol")) {
-          const fullPath = path.join(dir, fileName);
-          ipcRenderer
-            .invoke("collection", { req: "GET", path: fullPath })
-            .then((res) => {
-              update[activeTabGroup].push(res);
-              setTabs(update);
-              const updateActiveTab = activeTab;
-              updateActiveTab[activeTabGroup] =
-                update[activeTabGroup].length - 1;
-              setActiveTab(updateActiveTab);
-            });
-        } else if (fileName.includes(".pas")) {
-          const fullPath = path.join(dir, fileName);
-          ipcRenderer
-            .invoke("asset", { req: "GET", path: fullPath })
-            .then((res) => {
-              update[activeTabGroup].push(res);
-              setTabs(update);
-              const updateActiveTab = activeTab;
-              updateActiveTab[activeTabGroup] =
-                update[activeTabGroup].length - 1;
-              setActiveTab(updateActiveTab);
-            });
-        } else if (fileName.includes(".pdf")) {
-          const fullPath = path.join(dir, fileName);
-          fs.readFile(fullPath, (err, res) => {
-            if (err) throw err;
-            update[activeTabGroup].push({ id: fileName, data: res });
-            setTabs(update);
-            const updateActiveTab = activeTab;
-            updateActiveTab[activeTabGroup] = update[activeTabGroup].length - 1;
-            setActiveTab(updateActiveTab);
-          });
-          return;
         }
       }
     }
@@ -173,7 +128,6 @@ function Home() {
     if (update[activeTabGroup].length < 1) {
       update.splice(activeTabGroup, 1);
     }
-
     if (activeTab[activeTabGroup] > update[activeTabGroup]?.length - 1) {
       const updateActiveTab = [...activeTab];
       updateActiveTab[activeTabGroup] = update[activeTabGroup].length - 1;
@@ -242,6 +196,19 @@ function Home() {
                           handleRefresh();
                         }}
                         active={activeTool === 1}
+                        dir={dir}
+                        files={files}
+                        handleOpenNewDirectory={handleOpenNewDirectory}
+                        handleNewTab={handleNewTab}
+                      />
+                    </div>
+                  ) : activeTool === 2 ? (
+                    <div className="h-full overflow-y-hidden opacity-90">
+                      <GroceryPanel
+                        refresh={() => {
+                          handleRefresh();
+                        }}
+                        active={activeTool === 2}
                         dir={dir}
                         files={files}
                         handleOpenNewDirectory={handleOpenNewDirectory}

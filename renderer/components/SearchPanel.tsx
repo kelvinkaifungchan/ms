@@ -5,6 +5,7 @@ import { FileList } from "./FileList";
 import RingLoader from "react-spinners/RingLoader";
 import { NewFileDropdown } from "./NewFileDropdown";
 import { HiOutlineFolderOpen } from "react-icons/hi";
+import { FileName } from "./FileName";
 
 interface SearchPanelProps {
   active: boolean;
@@ -19,14 +20,19 @@ export const SearchPanel: React.FC<SearchPanelProps> = ({
   active,
   dir,
   files,
+  handleNewTab,
 }) => {
   //Files
   const [fileArchive, setFileArchive] = useState([]);
+  const [query, setQuery] = useState("");
   //Loading
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const filtered = files
+  const handleSearch = (e) => {
+    setLoading(true);
+    setQuery(e.target.value);
+    if (e.target.value.length > 0) {
+      const f = files
       .map((filePath) => {
         if (filePath.includes(".md")) {
           return path.relative(dir, filePath);
@@ -36,8 +42,25 @@ export const SearchPanel: React.FC<SearchPanelProps> = ({
       .filter((file) => {
         return file != null;
       });
-    setFileArchive(filtered);
-  }, [dir, files]);
+      const filtered = f.filter((file) => 
+        file.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setFileArchive(filtered);
+    } else {
+      const filtered = files
+        .map((filePath) => {
+          if (filePath.includes(".md")) {
+            return path.relative(dir, filePath);
+          }
+          return null;
+        })
+        .filter((file) => {
+          return file != null;
+        });
+      setFileArchive([]);
+    }
+    setLoading(false);
+  };
 
   return (
     <div
@@ -51,7 +74,14 @@ export const SearchPanel: React.FC<SearchPanelProps> = ({
         </div>
       </div>
       <div className="border p-1 flex items-center justify-between rounded-md opacity-70 hover:opacity-100 focus:opacity-100 duration-150">
-        <input type="text" className="w-full" />
+        <input
+          type="text"
+          className="w-full"
+          value={query}
+          onChange={(e) => {
+            handleSearch(e);
+          }}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -66,7 +96,21 @@ export const SearchPanel: React.FC<SearchPanelProps> = ({
           />
         </svg>
       </div>
-      <div className="overflow-y-auto h-full"></div>
+      <div className="overflow-y-auto h-full">
+        {fileArchive.map((file) => {
+          return (
+            <div
+              className="p-1 hover:bg-hl rounded-md whitespace-nowrap hover:cursor-pointer"
+              onClick={() => {
+                handleNewTab(file);
+              }}>
+              <div className="truncate">
+                <FileName text={path.basename(file)} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

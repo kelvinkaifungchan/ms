@@ -36,7 +36,6 @@ export const Editor = ({
     const editedContent = findTag(e.target.value);
     setContent(editedContent);
   };
-  console.log(content)
 
   return (
     <div
