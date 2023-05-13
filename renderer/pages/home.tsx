@@ -203,6 +203,7 @@ function Home() {
             handleRefresh();
           }}
           refreshing={refreshing}
+          handleOpenNewDirectory={handleOpenNewDirectory}
         />
         <div className="h-full w-full flex overflow-hidden">
           <Toolbar

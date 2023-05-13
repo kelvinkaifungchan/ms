@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tooltip } from "./Tooltip";
 import { InfoModal } from "./InfoModal";
 
-export const WindowBar = ({ dir, refresh, refreshing }) => {
+export const WindowBar = ({ dir, refresh, refreshing, handleOpenNewDirectory }) => {
   const [infoModal, setInfoModal] = useState(false);
   return (
     <div className="h-[40px] min-h-[40px] drag flex flex-none items-center justify-between p-2 space-x-3">
@@ -29,6 +29,23 @@ export const WindowBar = ({ dir, refresh, refreshing }) => {
         {/* <input type="text" className="border border-lightgreen w-full rounded-md"/> */}
       </div>
       <div className="flex items-center space-x-2">
+        <Tooltip
+          tooltip={"Open Folder"}
+          position={"translate-y-10 -translate-x-16"}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1}
+            stroke="currentColor"
+            className="w-6 h-6 hover:bg-hl rounded-md hover:cursor-pointer" onClick={() => {handleOpenNewDirectory()}}>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"
+            />
+          </svg>
+        </Tooltip>
         {dir ? (
           refreshing ? (
             <svg
@@ -67,30 +84,6 @@ export const WindowBar = ({ dir, refresh, refreshing }) => {
             </Tooltip>
           )
         ) : null}
-        <Tooltip tooltip={"Info"} position={"translate-y-10 -translate-x-10"}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1}
-            stroke="currentColor"
-            className="w-6 h-6 hover:bg-hl rounded-md hover:cursor-pointer"
-            onClick={() => {
-              setInfoModal(!infoModal);
-            }}>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-            />
-          </svg>
-        </Tooltip>
-        <InfoModal
-          toggle={() => {
-            setInfoModal(!infoModal);
-          }}
-          modal={infoModal}
-        />
       </div>
     </div>
   );
